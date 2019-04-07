@@ -1,0 +1,15 @@
+{
+  "name": "Local Lightning",
+  "start_url": "https://www.localhost.net",
+  "description": "A simple lightning app built on blockstack",
+  "icons": [{
+    "src": "https://www.agorashops.net/logo.png",
+    "sizes": "400x400",
+    "type": "image/png"
+  },
+  {
+    "src": "https://www.agorashops.net/avatar-placeholder.png",
+    "sizes": "400x400",
+    "type": "image/png"
+  }]
+}
