@@ -528,6 +528,7 @@ var logger = __webpack_require__(34);
     this.getUser();
     this.loadListings();
     this.getListings();
+    this.loadWebln();
   },
 
   computed: {
@@ -580,8 +581,8 @@ var logger = __webpack_require__(34);
           logger.info('Grabbed user listings');
           _this3.userListings = userListings;
         }
-      }).catch(function () {
-        logger.info('Could not get user listings');
+      }).catch(function (error) {
+        console.error('Could not get user listings: ' + error);
       });
     },
     saveListingToUser: function saveListingToUser(listing) {
@@ -673,6 +674,10 @@ var logger = __webpack_require__(34);
           size: 200,
           padding: null });
         console.log(qr);
+
+        if (_this5.webln) {
+          _this5.webln.sendPayment(_this5.invoice.payreq);
+        }
       }).catch(function (error) {
         console.log('error saving listing: ' + error);
         _this5.$vs.loading.close();
@@ -956,7 +961,7 @@ var LISTING_FILE = 'Listing/listings.json';
           _this.$vs.loading.close();
         }
       }).catch(function (publicInfoError) {
-        logger.error('could not resolve public info: ' + publicInfoError);
+        console.error('could not resolve public info: ' + publicInfoError);
         _this.loading = false;
         _this.$vs.loading.close();
       });
@@ -1850,7 +1855,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "hello"
-  }, [_c('div', [_c('h1', [_vm._v("Boltathon Project")]), _vm._v(" "), _vm._m(0), _vm._v(" "), _c('button', {
+  }, [_c('div', [_c('h1', [_vm._v("Local Lightning")]), _vm._v(" "), _vm._m(0), _vm._v(" "), _c('button', {
     staticClass: "btn btn-default",
     on: {
       "click": function($event) {
@@ -2123,7 +2128,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "slot": "title"
     },
     slot: "title"
-  }, [_c('vs-navbar-title', [_vm._v("\n        Boltathon App\n      ")])], 1), _vm._v(" "), _c('vs-navbar-item', {
+  }, [_c('vs-navbar-title', [_vm._v("\n        Local Lightning\n      ")])], 1), _vm._v(" "), _c('vs-navbar-item', {
     attrs: {
       "index": "0"
     }
@@ -2248,4 +2253,4 @@ module.exports = {"OP_FALSE":0,"OP_0":0,"OP_PUSHDATA1":76,"OP_PUSHDATA2":77,"OP_
 /***/ })
 
 },[401]);
-//# sourceMappingURL=app.f34fa16a3f14d46ca583.js.map
+//# sourceMappingURL=app.e6245a776c604772b188.js.map

@@ -146,7 +146,7 @@
             }
           })
           .catch((publicInfoError) => {
-            logger.error('could not resolve public info: ' + publicInfoError)
+            console.error('could not resolve public info: ' + publicInfoError)
             this.loading = false
             this.$vs.loading.close()
           })

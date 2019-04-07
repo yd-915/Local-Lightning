@@ -196,7 +196,7 @@
       this.getUser()
       this.loadListings()
       this.getListings()
-      // this.loadWebln()
+      this.loadWebln()
     },
     computed: {
       validForm () {
@@ -254,8 +254,8 @@
               this.userListings = userListings
             }
           })
-          .catch(() => {
-            logger.info('Could not get user listings')
+          .catch((error) => {
+            console.error('Could not get user listings: ' + error)
           })
       },
       saveListingToUser (listing) {
@@ -347,6 +347,10 @@
             padding: null // padding in pixels
           })
           console.log(qr)
+
+          if (this.webln) {
+            this.webln.sendPayment(this.invoice.payreq)
+          }
         })
           .catch((error) => {
             console.log('error saving listing: ' + error)
