@@ -3,8 +3,13 @@
 > A simple Vue.js lightning app built for the decentralized web.
 
 ## Screenshots
+### View paid listings
 ![WIP](github/listings.png?raw=true "listings") 
+
+### View profile of a user
 ![WIP](github/profile.png?raw=true "profile") 
+
+### Pay an invoice for indexing your listings
 ![WIP](github/invoice.png?raw=true "invoice") 
 
 ## Build Setup
