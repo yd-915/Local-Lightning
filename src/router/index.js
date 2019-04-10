@@ -1,15 +1,43 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Landing from '@/components/Landing'
+import DashboardLayout from '../layout/starter/SampleLayout.vue'
+import Starter from '../layout/starter/SamplePage.vue'
+const EditProfile = () => import(/* webpackChunkName: "common" */ '@/pages/EditProfile.vue')
+const Following = () => import(/* webpackChunkName: "common" */ '@/pages/Following.vue')
+const Profile = () => import(/* webpackChunkName: "common" */ '@/pages/Profile.vue')
 
 Vue.use(Router)
 
 let router = new Router({
   routes: [
-    {
+/*    {
       path: '/',
       name: 'Home',
       component: require('@/views/HomeView')
+    }, */
+    {
+      path: '/',
+      name: 'home',
+      redirect: '/dashboard',
+      component: DashboardLayout,
+      children: [
+        {
+          path: 'dashboard',
+          name: 'dashboard',
+          components: { default: Starter }
+        },
+        {
+          path: 'settings',
+          name: 'Settings',
+          component: EditProfile
+        },
+        {
+          path: 'following',
+          name: 'Following',
+          component: Following
+        }
+      ]
     },
     {
       path: '/login',
@@ -19,7 +47,7 @@ let router = new Router({
     {
       path: '/profile/:id',
       name: 'Profile',
-      component: require('@/views/ProfileView')
+      component: Profile
     },
     {
       path: '/following',

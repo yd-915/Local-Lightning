@@ -31,9 +31,11 @@
     "sass-loader": "^6.0.5",
     "slick-carousel": "^1.8.1",
     "vue": "^2.5.17",
+    "vue-i18n": "^8.10.0",
     "vue-plugin-load-script": "^1.2.0",
     "vue-resource": "^1.5.1",
     "vue-router": "^2.3.1",
+    "vue2-transitions": "^0.3.0",
     "vuesax": "^3.8.59",
     "webln": "^0.2.0"
   },
