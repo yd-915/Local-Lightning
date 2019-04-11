@@ -1,4 +1,4 @@
-import { BaseInput, Card, BaseDropdown, BaseButton, BaseCheckbox, BaseTable } from '../components/index'
+import { BaseInput, Card, BaseDropdown, BaseButton, BaseCheckbox, BaseTable, Modal } from '../components/index'
 /**
  * You can register global components here and use them as a plugin in your main Vue instance
  */
@@ -11,6 +11,7 @@ const GlobalComponents = {
     Vue.component(BaseButton.name, BaseButton)
     Vue.component(BaseCheckbox.name, BaseCheckbox)
     Vue.component(BaseTable.name, BaseTable)
+    Vue.component(Modal.name, Modal)
   }
 }
 

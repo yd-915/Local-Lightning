@@ -8,7 +8,15 @@ export default class Listing extends Model {
       type: String,
       decrypted: true
     },
-    location: {
+    city: {
+      type: String,
+      decrypted: true
+    },
+    state: {
+      type: String,
+      decrypted: true
+    },
+    country: {
       type: String,
       decrypted: true
     },

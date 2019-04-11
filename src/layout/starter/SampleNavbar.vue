@@ -11,7 +11,7 @@
             <span class="navbar-toggler-bar bar3"></span>
           </button>
         </div>
-        <a class="navbar-brand" href="#pablo">{{routeName}}</a>
+        <a class="navbar-brand">{{routeName}}</a>
       </div>
       <button class="navbar-toggler" type="button"
               @click="toggleMenu"
@@ -40,7 +40,7 @@
                    id="searchModal"
                    :centered="false"
                    :show-close="true">
-              <input slot="header" v-model="searchQuery" type="text" class="form-control" id="inlineFormInputGroup" placeholder="SEARCH">
+              <input slot="header" v-model="search" type="text" class="form-control" id="inlineFormInputGroup" placeholder="SEARCH" v-on:keyup.enter="searchUser">
             </modal>
             <base-dropdown tag="li"
                            :menu-on-right="!$rtl.isRTL"
@@ -49,7 +49,7 @@
                            menu-classes="dropdown-navbar">
               <a slot="title" href="#" class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="true">
                 <div class="photo">
-                  <img src="img/anime3.png">
+                  <img src="avatar-placeholder.png">
                 </div>
                 <b class="caret d-none d-lg-block d-xl-block"></b>
                 <p class="d-lg-none">
@@ -57,14 +57,16 @@
                 </p>
               </a>
               <li class="nav-link">
-                <a href="#" class="nav-item dropdown-item">Profile</a>
+                <a @click="goToProfile" href="#" class="nav-item dropdown-item">Profile</a>
               </li>
               <li class="nav-link">
-                <a href="#" class="nav-item dropdown-item">Settings</a>
+                <router-link :to="{name: 'Settings'}">
+                  <a href="#" class="nav-item dropdown-item">Settings</a>
+                </router-link>
               </li>
               <div class="dropdown-divider"></div>
               <li class="nav-link">
-                <a href="#" class="nav-item dropdown-item">Log out</a>
+                <a @click="signOut" href="#" class="nav-item dropdown-item">Log out</a>
               </li>
             </base-dropdown>
           </ul>
@@ -75,7 +77,9 @@
 </template>
 <script>
   import { CollapseTransition } from 'vue2-transitions'
-import Modal from '@/components/Modal'
+  import Modal from '@/components/Modal'
+  const logger = require('heroku-logger')
+  import { getConfig } from 'ln-radiks'
 
 export default {
     components: {
@@ -91,14 +95,16 @@ export default {
         return this.$rtl.isRTL
       }
     },
-    data () {
-      return {
-        activeNotifications: false,
-        showMenu: false,
-        searchModalVisible: false,
-        searchQuery: ''
-      }
-    },
+    data: () => ({
+      activeNotifications: false,
+      showMenu: false,
+      searchModalVisible: false,
+      searchQuery: '',
+      blockstack: window.blockstack,
+      userSearch: '',
+      activeItem: 5,
+      search: ''
+    }),
     methods: {
       capitalizeFirstLetter (string) {
         return string.charAt(0).toUpperCase() + string.slice(1)
@@ -117,6 +123,26 @@ export default {
       },
       toggleMenu () {
         this.showMenu = !this.showMenu
+      },
+      searchUser () {
+        logger.info('searching for user: ' + this.search)
+        this.$router.push({ path: `/profile/${this.search}/` })
+      },
+      goToProfile () {
+        var userData = this.blockstack.loadUserData()
+        var username = userData.username
+        logger.info('searching for user: ' + this.search)
+        this.$router.push({ path: `/profile/${username}/` })
+      },
+      signOut () {
+        this.blockstack.signUserOut(window.location.href)
+        const { userSession } = getConfig()
+        userSession.signUserOut()
+          .then(() => {
+            this.$router.push('/home')
+          })
+        // this.user = null
+        // this.radiksUser = null
       }
     }
   }

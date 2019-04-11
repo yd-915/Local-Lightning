@@ -1,10 +1,10 @@
 <template>
   <div class="wrapper">
-    <side-bar>
+    <side-bar title="Local Lightning">
       <template slot="links">
-        <sidebar-link to="/dashboard" :name="$t('sidebar.dashboard')" icon="tim-icons icon-chart-pie-36"/>
-        <sidebar-link to="/following" :name="$t('sidebar.following')" icon="tim-icons icon-chart-pie-36"/>
-        <sidebar-link to="/settings" :name="$t('sidebar.settings')" icon="tim-icons icon-chart-pie-36"/>
+        <sidebar-link to="/home" :name="$t('sidebar.listings')" icon="tim-icons icon-paper"/>
+        <sidebar-link to="/following" :name="$t('sidebar.following')" icon="tim-icons icon-single-02"/>
+        <sidebar-link to="/settings" :name="$t('sidebar.settings')" icon="tim-icons icon-settings"/>
       </template>
     </side-bar>
     <div class="main-panel">
@@ -12,7 +12,46 @@
 
       <div class="content">
         <user-card :user="personInfo"></user-card>
+
+        <!-- Table -->
+        <card class="card" :header-classes="{'text-right': isRTL}">
+          <h4 slot="header" class="card-title">
+            <div class="row app-margin">
+              Listings
+            </div>
+          </h4>
+          <base-table :data="userListings"
+                      :columns="columns">
+            <template slot="columns">
+              <th>Name</th>
+              <th>City</th>
+              <th>State</th>
+              <th>Country</th>
+              <th>Capacity</th>
+              <th>Currency</th>
+              <!--<th class="text-right">Actions</th>-->
+            </template>
+            <template slot-scope="{row}">
+              <td>{{row.attrs.name}}</td>
+              <td>{{row.attrs.city}}</td>
+              <td>{{row.attrs.state}}</td>
+              <td>{{row.attrs.country}}</td>
+              <td>{{row.attrs.capacity}}</td>
+              <td>{{row.attrs.currency}}</td>
+<!--              <td class="td-actions text-right">
+                <base-button type="info" size="sm" icon @click="loadUser(row.attrs.createdBy)">
+                  <i class="tim-icons icon-single-02"></i>
+                </base-button>
+                <base-button type="danger" size="sm" icon v-if="canDelete(row.attrs.createdBy)" @click="deleteListing(row)">
+                  <i class="tim-icons icon-simple-remove"></i>
+                </base-button>
+              </td>-->
+            </template>
+          </base-table>
+        </card>
+        <!-- endof Table-->
       </div>
+
       <content-footer></content-footer>
     </div>
   </div>

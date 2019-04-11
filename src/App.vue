@@ -39,6 +39,7 @@ export default {
       // const { userSession } = getConfig()
 
       if (blockstack.isUserSignedIn()) {
+        logger.info('user already signed in')
         this.userData = blockstack.loadUserData()
         this.user = new blockstack.Person(this.userData.profile)
         this.user.username = this.userData.username
@@ -48,6 +49,7 @@ export default {
         // radiks specific stuff
         User.createWithCurrentUser()
       } else if (blockstack.isSignInPending()) {
+        logger.info('user sign in pending')
         blockstack.handlePendingSignIn()
           .then((userData) => {
             this.user = new blockstack.Person(userData.profile)
@@ -60,7 +62,11 @@ export default {
             User.createWithCurrentUser()
             window.location = window.location.origin
           })
+          .catch((error) => {
+            logger.error('error with pending sign in: ' + error)
+          })
       } else {
+        logger.info('user not signed in and sign in not pending')
         this.$router.push('/login')
       }
     },
@@ -71,14 +77,19 @@ export default {
       })
 
       if (userSession.isUserSignedIn()) {
+        logger.info('user already signed in')
         User.createWithCurrentUser()
         const currentUser = userSession.loadUserData()
         this.user = currentUser
         // this.radiksUser = currentUser
       } else if (userSession.isSignInPending()) {
-        const currentUser = userSession.handlePendingSignIn()
-        User.createWithCurrentUser()
-        this.user = currentUser
+        logger.info('user sign in pending')
+        userSession.handlePendingSignIn()
+          .then((userData) => {
+            User.createWithCurrentUser()
+            this.user = userSession.loadUserData()
+            window.location = window.location.origin
+          })
         // this.radiksUser = currentUser
       }
     }
