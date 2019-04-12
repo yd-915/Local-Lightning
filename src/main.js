@@ -11,6 +11,8 @@ import vueResource from 'vue-resource'
 import LoadScript from 'vue-plugin-load-script'
 import Vuesax from 'vuesax'
 import 'vuesax/dist/vuesax.css'
+import BlackDashboard from './plugins/blackDashboard'
+import i18n from './i18n'
 
 // import Raven from 'raven-js'
 // import RavenVue from 'raven-js/plugins/vue'
@@ -32,11 +34,13 @@ Vue.config.productionTip = false
 Vue.use(vueResource)
 Vue.use(LoadScript)
 Vue.use(Vuesax)
+Vue.use(BlackDashboard)
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
+  i18n,
   template: '<App/>',
   components: { App }
 })

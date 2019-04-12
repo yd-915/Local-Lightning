@@ -1,4 +1,5 @@
-import Model from 'ln-radiks/lib/model'
+// import Model from 'ln-radiks/lib/model'
+import Model from 'radiks/lib/model'
 
 export default class Listing extends Model {
   static className = 'Listing'
@@ -8,7 +9,15 @@ export default class Listing extends Model {
       type: String,
       decrypted: true
     },
-    location: {
+    city: {
+      type: String,
+      decrypted: true
+    },
+    state: {
+      type: String,
+      decrypted: true
+    },
+    country: {
       type: String,
       decrypted: true
     },
