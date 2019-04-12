@@ -7,13 +7,13 @@ var enforce = require('express-sslify')
 
 var app = express()
 
-app.get('*', function (req, res, next) {
+/* app.get('*', function (req, res, next) {
   if (req.headers.host.slice(0, 3) !== 'www') {
     res.redirect('https://www.' + req.headers.host + req.url, 301)
   } else {
     next()
   }
-})
+}) */
 
 app.use(enforce.HTTPS({ trustProtoHeader: true }))
 
