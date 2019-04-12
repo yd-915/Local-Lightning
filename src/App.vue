@@ -16,7 +16,7 @@ import { User, configure } from 'radiks'
 import { UserSession, AppConfig } from 'blockstack'
 // import Raven from 'raven-js'
 const logger = require('heroku-logger')
-const appConfig = new AppConfig(['store_write', 'publish_data'], 'https://www.locallightning.net') // todo fix this
+const appConfig = new AppConfig(['store_write', 'publish_data'], process.env.VUE_APP_APP_URI)
 const userSession = new UserSession({ appConfig })
 
 export default {
@@ -72,7 +72,7 @@ export default {
     },
     radiksLogin () {
       configure({
-        apiServer: 'https://locallightning-radiks.herokuapp.com',
+        apiServer: process.env.VUE_APP_RADIKS_URI,
         userSession
       })
 

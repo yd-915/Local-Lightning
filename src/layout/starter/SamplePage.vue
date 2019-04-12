@@ -105,7 +105,8 @@
                             v-model="newListing.capacity"
                             placeholder="Capacity">
                 </base-input>
-                <base-input alternative
+                <base-input v-if="tableMode === 'Buying'"
+                            alternative
                             class="mb-3"
                             v-model="newListing.currency"
                             placeholder="Currency">
@@ -136,6 +137,9 @@
               <hr />
               Saved to user's storage, pay invoice to post to listing feed:
               {{invoice.payreq}}
+            </div>
+            <div class="text-center text-muted mb-4">
+              <a target="_blank" href="https://btcpay.locallightning.net/embed/GUktQV4Mkvth4iU7oy4XGSvcEiRH2uFad7kxJX5LwsK6/BTC/ln">Connect to LocalLightning's Lightning Node</a>
             </div>
           </template>
         </card>
@@ -307,7 +311,7 @@ export default {
           state: this.newListing.state,
           country: this.newListing.country,
           capacity: this.newListing.capacity,
-          currency: this.newListing.currency,
+          currency: this.tableMode === 'Selling' ? 'BTC' : this.newListing.currency,
           type: this.tableMode,
           createdBy: this.radiksUser._id
         })

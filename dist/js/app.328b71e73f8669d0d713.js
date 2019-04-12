@@ -1027,6 +1027,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_vuesax_dist_vuesax_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_vuesax_dist_vuesax_css__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__plugins_blackDashboard__ = __webpack_require__(303);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__i18n__ = __webpack_require__(302);
+throw new Error("Cannot find module \"dotenv\"");
+
 
 
 
@@ -1043,6 +1045,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 window.blockstack = __webpack_require__(21);
 window.axios = __webpack_require__(301);
+
+__WEBPACK_IMPORTED_MODULE_10_dotenv___default.a.config();
 
 __WEBPACK_IMPORTED_MODULE_0_vue__["default"].config.productionTip = false;
 
@@ -1167,7 +1171,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 var logger = __webpack_require__(26);
-var appConfig = new __WEBPACK_IMPORTED_MODULE_3_blockstack__["AppConfig"](['store_write', 'publish_data'], 'https://www.locallightning.net');
+var appConfig = new __WEBPACK_IMPORTED_MODULE_3_blockstack__["AppConfig"](['store_write', 'publish_data'], __webpack_require__.i({"NODE_ENV":"production"}).VUE_APP_APP_URI);
 var userSession = new __WEBPACK_IMPORTED_MODULE_3_blockstack__["UserSession"]({ appConfig: appConfig });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -1223,7 +1227,7 @@ var userSession = new __WEBPACK_IMPORTED_MODULE_3_blockstack__["UserSession"]({ 
       var _this2 = this;
 
       __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_radiks__["configure"])({
-        apiServer: 'https://locallightning-radiks.herokuapp.com',
+        apiServer: __webpack_require__.i({"NODE_ENV":"production"}).VUE_APP_RADIKS_URI,
         userSession: userSession
       });
 
@@ -6080,4 +6084,4 @@ module.exports = {"dashboard":{"completedTasks":"Completed Tasks","dailySales":"
 
 /***/ })
 ],[346]);
-//# sourceMappingURL=app.8322adf20af2ea0b5266.js.map
+//# sourceMappingURL=app.328b71e73f8669d0d713.js.map
