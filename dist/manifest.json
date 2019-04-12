@@ -1,6 +1,6 @@
 {
   "name": "Local Lightning",
-  "start_url": "https://www.localhost.net",
+  "start_url": "https://www.locallightning.net",
   "description": "A simple lightning app built on blockstack",
   "icons": [{
     "src": "https://www.locallightning.net/logo.png",
