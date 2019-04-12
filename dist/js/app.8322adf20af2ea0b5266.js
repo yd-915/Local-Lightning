@@ -1167,7 +1167,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 var logger = __webpack_require__(26);
-var appConfig = new __WEBPACK_IMPORTED_MODULE_3_blockstack__["AppConfig"](['store_write', 'publish_data'], 'https://locallightning.net');
+var appConfig = new __WEBPACK_IMPORTED_MODULE_3_blockstack__["AppConfig"](['store_write', 'publish_data'], 'https://www.locallightning.net');
 var userSession = new __WEBPACK_IMPORTED_MODULE_3_blockstack__["UserSession"]({ appConfig: appConfig });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -6080,4 +6080,4 @@ module.exports = {"dashboard":{"completedTasks":"Completed Tasks","dailySales":"
 
 /***/ })
 ],[346]);
-//# sourceMappingURL=app.966a2c29a930898c02eb.js.map
+//# sourceMappingURL=app.8322adf20af2ea0b5266.js.map

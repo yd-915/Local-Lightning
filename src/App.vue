@@ -16,7 +16,7 @@ import { User, configure } from 'radiks'
 import { UserSession, AppConfig } from 'blockstack'
 // import Raven from 'raven-js'
 const logger = require('heroku-logger')
-const appConfig = new AppConfig(['store_write', 'publish_data'], 'https://locallightning.net') // todo fix this
+const appConfig = new AppConfig(['store_write', 'publish_data'], 'https://www.locallightning.net') // todo fix this
 const userSession = new UserSession({ appConfig })
 
 export default {
