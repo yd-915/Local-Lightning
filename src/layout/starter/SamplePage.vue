@@ -146,7 +146,7 @@
 </template>
 <script>
   import Listing from '../../assets/models/Listing'
-  import { User } from 'ln-radiks'
+  import { User } from 'radiks'
   import { requestProvider } from 'webln'
   import QRious from 'qrious'
 

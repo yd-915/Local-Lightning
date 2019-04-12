@@ -31,7 +31,7 @@
 
 <script>
   const logger = require('heroku-logger')
-  import { getConfig } from 'ln-radiks'
+  import { getConfig } from 'radiks'
 
   export default {
     name: 'header',

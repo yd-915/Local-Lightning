@@ -1,4 +1,5 @@
-import Model from 'ln-radiks/lib/model'
+// import Model from 'ln-radiks/lib/model'
+import Model from 'radiks/lib/model'
 
 export default class Listing extends Model {
   static className = 'Listing'

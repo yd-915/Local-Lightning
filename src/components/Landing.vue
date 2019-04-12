@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import { getConfig } from 'ln-radiks'
+import { getConfig } from 'radiks'
 const logger = require('heroku-logger')
 
 export default {

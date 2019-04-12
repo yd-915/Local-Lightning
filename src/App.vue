@@ -12,11 +12,11 @@
 
 import Landing from './components/Landing.vue'
 import Home from './components/Home.vue'
-import { User, configure } from 'ln-radiks'
+import { User, configure } from 'radiks'
 import { UserSession, AppConfig } from 'blockstack'
 // import Raven from 'raven-js'
 const logger = require('heroku-logger')
-const appConfig = new AppConfig(['store_write', 'publish_data'], 'http://localhost:8090')
+const appConfig = new AppConfig(['store_write', 'publish_data'], 'https://locallightning.net') // todo fix this
 const userSession = new UserSession({ appConfig })
 
 export default {
@@ -72,7 +72,7 @@ export default {
     },
     radiksLogin () {
       configure({
-        apiServer: 'http://localhost:1260',
+        apiServer: 'https://locallightning-radiks.herokuapp.com',
         userSession
       })
 

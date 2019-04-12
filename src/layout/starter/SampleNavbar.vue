@@ -79,7 +79,7 @@
   import { CollapseTransition } from 'vue2-transitions'
   import Modal from '@/components/Modal'
   const logger = require('heroku-logger')
-  import { getConfig } from 'ln-radiks'
+  import { getConfig } from 'radiks'
 
 export default {
     components: {
