@@ -1027,8 +1027,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_vuesax_dist_vuesax_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_vuesax_dist_vuesax_css__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__plugins_blackDashboard__ = __webpack_require__(303);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__i18n__ = __webpack_require__(302);
-throw new Error("Cannot find module \"dotenv\"");
-
 
 
 
@@ -1045,8 +1043,6 @@ throw new Error("Cannot find module \"dotenv\"");
 
 window.blockstack = __webpack_require__(21);
 window.axios = __webpack_require__(301);
-
-__WEBPACK_IMPORTED_MODULE_10_dotenv___default.a.config();
 
 __WEBPACK_IMPORTED_MODULE_0_vue__["default"].config.productionTip = false;
 
@@ -3074,7 +3070,7 @@ var logger = __webpack_require__(26);
         state: this.newListing.state,
         country: this.newListing.country,
         capacity: this.newListing.capacity,
-        currency: this.newListing.currency,
+        currency: this.tableMode === 'Selling' ? 'BTC' : this.newListing.currency,
         type: this.tableMode,
         createdBy: this.radiksUser._id
       });
@@ -5907,7 +5903,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         },
         expression: "newListing.capacity"
       }
-    }), _vm._v(" "), _c('base-input', {
+    }), _vm._v(" "), (_vm.tableMode === 'Buying') ? _c('base-input', {
       staticClass: "mb-3",
       attrs: {
         "alternative": "",
@@ -5920,7 +5916,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         },
         expression: "newListing.currency"
       }
-    }), _vm._v(" "), _c('div', {
+    }) : _vm._e(), _vm._v(" "), _c('div', {
       staticClass: "text-center"
     }, [_c('base-button', {
       staticClass: "my-4",
@@ -5958,7 +5954,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "height": "150px",
         "width": "150px"
       }
-    }), _vm._v(" "), _c('hr'), _vm._v("\n            Saved to user's storage, pay invoice to post to listing feed:\n            " + _vm._s(_vm.invoice.payreq) + "\n          ")])]
+    }), _vm._v(" "), _c('hr'), _vm._v("\n            Saved to user's storage, pay invoice to post to listing feed:\n            " + _vm._s(_vm.invoice.payreq) + "\n          ")]), _vm._v(" "), _c('div', {
+      staticClass: "text-center text-muted mb-4"
+    }, [_c('a', {
+      attrs: {
+        "target": "_blank",
+        "href": "https://btcpay.locallightning.net/embed/GUktQV4Mkvth4iU7oy4XGSvcEiRH2uFad7kxJX5LwsK6/BTC/ln"
+      }
+    }, [_vm._v("Connect to LocalLightning's Lightning Node")])])]
   ], 2)], 1)], 1)])
 },staticRenderFns: []}
 
@@ -6084,4 +6087,4 @@ module.exports = {"dashboard":{"completedTasks":"Completed Tasks","dailySales":"
 
 /***/ })
 ],[346]);
-//# sourceMappingURL=app.328b71e73f8669d0d713.js.map
+//# sourceMappingURL=app.157b8432c22407a25fe0.js.map
