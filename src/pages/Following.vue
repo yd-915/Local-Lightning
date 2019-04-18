@@ -16,7 +16,7 @@
             <base-button type="info" size="sm" icon @click="loadUser(row.username)">
               <i class="tim-icons icon-single-02"></i>
             </base-button>
-            <base-button type="danger" size="sm" icon>
+            <base-button type="danger" size="sm" icon @click="deleteUser(row)">
               <i class="tim-icons icon-simple-remove"></i>
             </base-button>
           </td>
@@ -29,6 +29,7 @@
 <script>
   const logger = require('heroku-logger')
   var PRIVATE_FRIENDS_LIST = 'private/following.json'
+
   export default {
     name: 'following',
     props: ['user'],
@@ -69,6 +70,36 @@
       },
       loadUser (username) {
         this.$router.push({ path: `/profile/${username}/` })
+      },
+      deleteUser (user) {
+        const index = this.followingList.indexOf(user)
+
+        confirm('Are you sure you want to stop following this user?') &&
+        this.followingList.splice(index, 1) &&
+        this.updateFollowingList()
+      },
+      updateFollowingList () {
+        this.blockstack.putFile(PRIVATE_FRIENDS_LIST, JSON.stringify(this.followingList), {encrypt: true})
+          .then(() => {
+            this.notifySuccess('Removed', 'Removed user from following list')
+          })
+          .catch((error) => {
+            this.notifyFailure('Failure To Remove', error)
+          })
+      },
+      notifySuccess (title, text) {
+        this.$vs.notify({
+          color: 'success',
+          title: title,
+          text: text
+        })
+      },
+      notifyFailure (title, text) {
+        this.$vs.notify({
+          color: 'danger',
+          title: title,
+          text: text
+        })
       }
     }
   }

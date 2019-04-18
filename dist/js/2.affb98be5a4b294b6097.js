@@ -29,10 +29,14 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_json_stringify__ = __webpack_require__(110);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_json_stringify___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_json_stringify__);
+
 
 
 var logger = __webpack_require__(26);
 var PRIVATE_FRIENDS_LIST = 'private/following.json';
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'following',
   props: ['user'],
@@ -76,6 +80,34 @@ var PRIVATE_FRIENDS_LIST = 'private/following.json';
     },
     loadUser: function loadUser(username) {
       this.$router.push({ path: '/profile/' + username + '/' });
+    },
+    deleteUser: function deleteUser(user) {
+      var index = this.followingList.indexOf(user);
+
+      confirm('Are you sure you want to stop following this user?') && this.followingList.splice(index, 1) && this.updateFollowingList();
+    },
+    updateFollowingList: function updateFollowingList() {
+      var _this2 = this;
+
+      this.blockstack.putFile(PRIVATE_FRIENDS_LIST, __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_json_stringify___default()(this.followingList), { encrypt: true }).then(function () {
+        _this2.notifySuccess('Removed', 'Removed user from following list');
+      }).catch(function (error) {
+        _this2.notifyFailure('Failure To Remove', error);
+      });
+    },
+    notifySuccess: function notifySuccess(title, text) {
+      this.$vs.notify({
+        color: 'success',
+        title: title,
+        text: text
+      });
+    },
+    notifyFailure: function notifyFailure(title, text) {
+      this.$vs.notify({
+        color: 'danger',
+        title: title,
+        text: text
+      });
     }
   }
 });
@@ -158,6 +190,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
             "type": "danger",
             "size": "sm",
             "icon": ""
+          },
+          on: {
+            "click": function($event) {
+              return _vm.deleteUser(row)
+            }
           }
         }, [_c('i', {
           staticClass: "tim-icons icon-simple-remove"
@@ -174,4 +211,4 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
 /***/ })
 
 });
-//# sourceMappingURL=2.5c9ea6504865f16e6f89.js.map
+//# sourceMappingURL=2.affb98be5a4b294b6097.js.map
