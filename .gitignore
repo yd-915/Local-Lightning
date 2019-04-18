@@ -125,3 +125,5 @@ Thumbs.db
 #.vscode
 
 commands\.txt
+
+\.env\.local
