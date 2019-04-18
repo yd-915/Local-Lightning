@@ -5,7 +5,7 @@ var merge = require('webpack-merge')
 var baseWebpackConfig = require('./webpack.base.conf')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 var FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
-var Dotenv = require('dotenv-webpack')
+// var Dotenv = require('dotenv-webpack')
 
 var env = config.dev.env
 env.PACKAGE_JSON = '"' + escape(JSON.stringify(require('../package'))) + '"'
@@ -22,7 +22,7 @@ module.exports = merge(baseWebpackConfig, {
   // cheap-module-eval-source-map is faster for development
   devtool: '#cheap-module-eval-source-map',
   plugins: [
-    new Dotenv(),
+    // new Dotenv(),
     new webpack.DefinePlugin({
       'process.env': env
     }),
