@@ -91,7 +91,7 @@
                 followList.push(storeToFollow)
                 updateFollowList = true
               } else {
-                logger.info('store already following')
+                logger.info('user already following')
               }
             } else {
               logger.info('followingList list empty')
@@ -101,15 +101,44 @@
             if (updateFollowList) {
               logger.info('Saving private file', {file: PRIVATE_FOLLOW_LIST})
               blockstack.putFile(PRIVATE_FOLLOW_LIST, JSON.stringify(followList), {encrypt: true})
+                .then(() => {
+                  this.notifySuccess('Following User', null)
+                })
+                .catch((error) => {
+                  this.notifyFailure('Failure Following User', error)
+                })
+            } else {
+              this.notifyWarning('Already Following User')
             }
           })
           .catch((error) => {
             logger.error('could not get/save followingList list: ' + error)
-            // todo throw error
+            this.notifyFailure('Failure Following User', error)
           })
       },
       emailUser () {
         window.location.href = 'mailto:' + this.user.publicInformation.email
+      },
+      notifySuccess (title, text) {
+        this.$vs.notify({
+          color: 'success',
+          title: title,
+          text: text
+        })
+      },
+      notifyWarning (title, text) {
+        this.$vs.notify({
+          color: 'warning',
+          title: title,
+          text: text
+        })
+      },
+      notifyFailure (title, text) {
+        this.$vs.notify({
+          color: 'danger',
+          title: title,
+          text: text
+        })
       }
     }
   }
