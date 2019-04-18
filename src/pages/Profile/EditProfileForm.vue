@@ -76,32 +76,13 @@
       validPublic: false,
       validPrivate: false,
       nameField_Public: '',
-      nameRules: [
-        v => !!v || 'Name is required',
-        v => (v && v.length <= 10) || 'Name must be less than 10 characters'
-      ],
       emailField_Public: '',
-      emailRules: [
-        v => (v.length === 0 || /.+@.+/.test(v)) || 'E-mail must be valid'
-      ],
-      descriptionRules: [
-        v => (v == null || v.length <= 1000) || 'Description must be less than 1000 characters'
-      ],
-      bitcoinAddressRules: [
-        v => (v == null || v.length <= 42) || 'Max size of a bitcoin public key is 42 characters'
-      ],
       publicInformation: {
         name: '',
         email: '',
         description: '',
         location: '',
         nodeInformation: ''
-      },
-      phoneField_Private: '',
-      emailField_Private: '',
-      privateInformation: {
-        email: '',
-        phoneNumber: ''
       }
     }),
     mounted () {
@@ -113,6 +94,12 @@
 
         logger.info('Saving public file', { file: PUBLIC_STORAGE_FILE })
         return blockstack.putFile(PUBLIC_STORAGE_FILE, JSON.stringify(this.publicInformation), { encrypt: false })
+          .then(() => {
+            this.notifySuccess('Saved Profile', null)
+          })
+          .catch((error) => {
+            this.notifyFailure('Failed To Save Profile', error.message)
+          })
       },
       clearPublic () {
         this.$refs.publicForm.reset()
@@ -127,6 +114,20 @@
               this.publicInformation = publicInformation
             }
           })
+      },
+      notifySuccess (title, text) {
+        this.$vs.notify({
+          color: 'success',
+          title: title,
+          text: text
+        })
+      },
+      notifyFailure (title, text) {
+        this.$vs.notify({
+          color: 'danger',
+          title: title,
+          text: text
+        })
       }
     }
   }
