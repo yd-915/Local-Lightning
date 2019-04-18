@@ -1167,7 +1167,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 var logger = __webpack_require__(26);
-var appConfig = new __WEBPACK_IMPORTED_MODULE_3_blockstack__["AppConfig"](['store_write', 'publish_data'], "http://localhost:8090");
+var appConfig = new __WEBPACK_IMPORTED_MODULE_3_blockstack__["AppConfig"](['store_write', 'publish_data'], "https://www.locallightning.net");
 var userSession = new __WEBPACK_IMPORTED_MODULE_3_blockstack__["UserSession"]({ appConfig: appConfig });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -1223,7 +1223,7 @@ var userSession = new __WEBPACK_IMPORTED_MODULE_3_blockstack__["UserSession"]({ 
       var _this2 = this;
 
       __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_radiks__["configure"])({
-        apiServer: "http://localhost:1260",
+        apiServer: "https://locallightning-radiks.herokuapp.com",
         userSession: userSession
       });
 
@@ -6099,4 +6099,4 @@ module.exports = {"dashboard":{"completedTasks":"Completed Tasks","dailySales":"
 
 /***/ })
 ],[346]);
-//# sourceMappingURL=app.d5e25380ce9a07229e7e.js.map
+//# sourceMappingURL=app.0217e9bc0d5ed55bd8c9.js.map
