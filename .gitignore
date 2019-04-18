@@ -123,3 +123,5 @@ testem.log
 Thumbs.db
 
 #.vscode
+
+commands\.txt

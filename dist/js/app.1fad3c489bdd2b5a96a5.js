@@ -1167,7 +1167,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 var logger = __webpack_require__(26);
-var appConfig = new __WEBPACK_IMPORTED_MODULE_3_blockstack__["AppConfig"](['store_write', 'publish_data'], "https://www.locallightning.net");
+var appConfig = new __WEBPACK_IMPORTED_MODULE_3_blockstack__["AppConfig"](['store_write', 'publish_data'], "http://localhost:8090");
 var userSession = new __WEBPACK_IMPORTED_MODULE_3_blockstack__["UserSession"]({ appConfig: appConfig });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -1223,7 +1223,7 @@ var userSession = new __WEBPACK_IMPORTED_MODULE_3_blockstack__["UserSession"]({ 
       var _this2 = this;
 
       __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_radiks__["configure"])({
-        apiServer: "https://locallightning-radiks.herokuapp.com",
+        apiServer: "http://localhost:1260",
         userSession: userSession
       });
 
@@ -3076,10 +3076,11 @@ var logger = __webpack_require__(26);
       });
 
       console.log('creating new listing for: ' + listing.attrs.name + ' id: ' + listing._id);
+      console.log(listing);
 
       listing.saveLN().then(function (result) {
         console.log(result);
-
+        _this5.notifySuccess('Saved Listing', 'Listing saved to your storage');
         __WEBPACK_IMPORTED_MODULE_1__assets_models_Listing__["a" /* default */].addInvoiceStreamListener(result.id, _this5.newLNListener.bind(_this5));
         _this5.listing = listing;
         _this5.invoice = result;
@@ -3105,12 +3106,7 @@ var logger = __webpack_require__(26);
       }).catch(function (error) {
         console.log('error saving listing: ' + error);
         _this5.$vs.loading.close();
-      });
-
-      this.$vs.notify({
-        color: 'success',
-        title: 'Saved Listing',
-        text: 'Listing saved to your storage'
+        _this5.notifyFailure('Did not save Listing', 'Error saving listing to user\'s storage');
       });
     },
     newLNListener: function newLNListener(invoiceReceived) {
@@ -3120,11 +3116,7 @@ var logger = __webpack_require__(26);
         this.paid = true;
         this.invoice = '';
         this.popupActive = false;
-        this.$vs.notify({
-          color: 'success',
-          title: 'Invoice Paid',
-          text: 'Listing posted to the listing feed'
-        });
+        this.notifySuccess('Invoice Paid', 'Listing posted to the listing feed');
         this.loadListings();
       }
     },
@@ -3133,11 +3125,7 @@ var logger = __webpack_require__(26);
       this.loadUser(this.selected.attrs.createdBy);
     },
     close: function close() {
-      this.$vs.notify({
-        color: 'danger',
-        title: 'Listing Discarded',
-        text: ':('
-      });
+      this.notifyFailure('Listing Discarded', null);
     },
     bigLineChartCategories: function bigLineChartCategories() {
       return this.$t('dashboard.chartCategories');
@@ -3149,9 +3137,11 @@ var logger = __webpack_require__(26);
       var _this6 = this;
 
       listing.destroy().then(function () {
+        _this6.notifySuccess('Deleted Listing', null);
         _this6.loadListings();
       }).catch(function (error) {
         logger.info('failed to delete listing: ' + error);
+        _this6.notifyFailure('Failed To Delete Listing', null);
       });
     },
     selectSellingTable: function selectSellingTable() {
@@ -3161,6 +3151,20 @@ var logger = __webpack_require__(26);
     selectBuyingTable: function selectBuyingTable() {
       this.tableMode = 'Buying';
       this.selectedListings = this.listingsBuying;
+    },
+    notifySuccess: function notifySuccess(title, text) {
+      this.$vs.notify({
+        color: 'success',
+        title: title,
+        text: text
+      });
+    },
+    notifyFailure: function notifyFailure(title, text) {
+      this.$vs.notify({
+        color: 'danger',
+        title: title,
+        text: text
+      });
     }
   },
   components: {}
@@ -6087,4 +6091,4 @@ module.exports = {"dashboard":{"completedTasks":"Completed Tasks","dailySales":"
 
 /***/ })
 ],[346]);
-//# sourceMappingURL=app.302ac3120914d3abd836.js.map
+//# sourceMappingURL=app.1fad3c489bdd2b5a96a5.js.map

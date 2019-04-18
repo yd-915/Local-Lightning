@@ -317,11 +317,11 @@ export default {
         })
 
         console.log('creating new listing for: ' + listing.attrs.name + ' id: ' + listing._id)
+        console.log(listing)
 
         listing.saveLN().then((result) => {
           console.log(result)
-        // console.log(result.payreq)
-        // console.log(result.id)
+          this.notifySuccess('Saved Listing', 'Listing saved to your storage')
           Listing.addInvoiceStreamListener(result.id, this.newLNListener.bind(this))
           this.listing = listing
           this.invoice = result
@@ -349,12 +349,7 @@ export default {
         .catch((error) => {
           console.log('error saving listing: ' + error)
           this.$vs.loading.close()
-        })
-
-        this.$vs.notify({
-          color: 'success',
-          title: 'Saved Listing',
-          text: 'Listing saved to your storage'
+          this.notifyFailure('Did not save Listing', 'Error saving listing to user\'s storage')
         })
       },
       newLNListener (invoiceReceived) {
@@ -365,11 +360,7 @@ export default {
           this.paid = true
           this.invoice = ''
           this.popupActive = false
-          this.$vs.notify({
-            color: 'success',
-            title: 'Invoice Paid',
-            text: 'Listing posted to the listing feed'
-          })
+          this.notifySuccess('Invoice Paid', 'Listing posted to the listing feed')
           this.loadListings()
         }
       },
@@ -378,11 +369,7 @@ export default {
         this.loadUser(this.selected.attrs.createdBy)
       },
       close () {
-        this.$vs.notify({
-          color: 'danger',
-          title: 'Listing Discarded',
-          text: ':('
-        })
+        this.notifyFailure('Listing Discarded', null)
       },
       bigLineChartCategories () {
         return this.$t('dashboard.chartCategories')
@@ -394,10 +381,12 @@ export default {
       },
       deleteListing (listing) {
         listing.destroy().then(() => {
+          this.notifySuccess('Deleted Listing', null)
           this.loadListings()
         })
         .catch((error) => {
           logger.info('failed to delete listing: ' + error)
+          this.notifyFailure('Failed To Delete Listing', null)
         })
       },
       selectSellingTable () {
@@ -407,6 +396,20 @@ export default {
       selectBuyingTable () {
         this.tableMode = 'Buying'
         this.selectedListings = this.listingsBuying
+      },
+      notifySuccess (title, text) {
+        this.$vs.notify({
+          color: 'success',
+          title: title,
+          text: text
+        })
+      },
+      notifyFailure (title, text) {
+        this.$vs.notify({
+          color: 'danger',
+          title: title,
+          text: text
+        })
       }
     },
     components: {

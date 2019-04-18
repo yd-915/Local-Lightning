@@ -277,33 +277,13 @@ var PUBLIC_STORAGE_FILE = 'public/publicInformation.json';
       validPublic: false,
       validPrivate: false,
       nameField_Public: '',
-      nameRules: [function (v) {
-        return !!v || 'Name is required';
-      }, function (v) {
-        return v && v.length <= 10 || 'Name must be less than 10 characters';
-      }],
       emailField_Public: '',
-      emailRules: [function (v) {
-        return v.length === 0 || /.+@.+/.test(v) || 'E-mail must be valid';
-      }],
-      descriptionRules: [function (v) {
-        return v == null || v.length <= 1000 || 'Description must be less than 1000 characters';
-      }],
-      bitcoinAddressRules: [function (v) {
-        return v == null || v.length <= 42 || 'Max size of a bitcoin public key is 42 characters';
-      }],
       publicInformation: {
         name: '',
         email: '',
         description: '',
         location: '',
         nodeInformation: ''
-      },
-      phoneField_Private: '',
-      emailField_Private: '',
-      privateInformation: {
-        email: '',
-        phoneNumber: ''
       }
     };
   },
@@ -313,24 +293,44 @@ var PUBLIC_STORAGE_FILE = 'public/publicInformation.json';
 
   methods: {
     submitPublic: function submitPublic() {
+      var _this = this;
+
       var blockstack = this.blockstack;
 
       logger.info('Saving public file', { file: PUBLIC_STORAGE_FILE });
-      return blockstack.putFile(PUBLIC_STORAGE_FILE, __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_json_stringify___default()(this.publicInformation), { encrypt: false });
+      return blockstack.putFile(PUBLIC_STORAGE_FILE, __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_json_stringify___default()(this.publicInformation), { encrypt: false }).then(function () {
+        _this.notifySuccess('Saved Profile', null);
+      }).catch(function (error) {
+        _this.notifyFailure('Failed To Save Profile', error.message);
+      });
     },
     clearPublic: function clearPublic() {
       this.$refs.publicForm.reset();
     },
     fetchData: function fetchData() {
-      var _this = this;
+      var _this2 = this;
 
       var blockstack = this.blockstack;
 
       blockstack.getFile(PUBLIC_STORAGE_FILE, { decrypt: false }).then(function (publicInformationJson) {
         if (publicInformationJson !== null) {
           var publicInformation = JSON.parse(publicInformationJson || '[]');
-          _this.publicInformation = publicInformation;
+          _this2.publicInformation = publicInformation;
         }
+      });
+    },
+    notifySuccess: function notifySuccess(title, text) {
+      this.$vs.notify({
+        color: 'success',
+        title: title,
+        text: text
+      });
+    },
+    notifyFailure: function notifyFailure(title, text) {
+      this.$vs.notify({
+        color: 'danger',
+        title: title,
+        text: text
       });
     }
   }
@@ -550,4 +550,4 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
 /***/ })
 
 });
-//# sourceMappingURL=0.95fc47de18a1f48eae3b.js.map
+//# sourceMappingURL=0.00e521fc5931f8b8c37a.js.map
