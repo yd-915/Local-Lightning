@@ -1,20 +1,20 @@
-webpackJsonp([0],{
+webpackJsonp([1],{
 
-/***/ 815:
+/***/ 817:
 /***/ (function(module, exports, __webpack_require__) {
 
 function injectStyle (ssrContext) {
-  __webpack_require__(833)
+  __webpack_require__(832)
 }
 var Component = __webpack_require__(4)(
   /* script */
-  __webpack_require__(824),
+  __webpack_require__(826),
   /* template */
-  __webpack_require__(838),
+  __webpack_require__(837),
   /* styles */
   injectStyle,
   /* scopeId */
-  null,
+  "data-v-8431c3e8",
   /* moduleIdentifier (server only) */
   null
 )
@@ -90,7 +90,7 @@ var PRIVATE_FOLLOW_LIST = 'private/following.json';
             followList.push(storeToFollow);
             updateFollowList = true;
           } else {
-            logger.info('store already following');
+            logger.info('user already following');
           }
         } else {
           logger.info('followingList list empty');
@@ -99,14 +99,42 @@ var PRIVATE_FOLLOW_LIST = 'private/following.json';
         }
         if (updateFollowList) {
           logger.info('Saving private file', { file: PRIVATE_FOLLOW_LIST });
-          blockstack.putFile(PRIVATE_FOLLOW_LIST, __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_json_stringify___default()(followList), { encrypt: true });
+          blockstack.putFile(PRIVATE_FOLLOW_LIST, __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_json_stringify___default()(followList), { encrypt: true }).then(function () {
+            _this.notifySuccess('Following User', null);
+          }).catch(function (error) {
+            _this.notifyFailure('Failure Following User', error);
+          });
+        } else {
+          _this.notifyWarning('Already Following User');
         }
       }).catch(function (error) {
         logger.error('could not get/save followingList list: ' + error);
+        _this.notifyFailure('Failure Following User', error);
       });
     },
     emailUser: function emailUser() {
       window.location.href = 'mailto:' + this.user.publicInformation.email;
+    },
+    notifySuccess: function notifySuccess(title, text) {
+      this.$vs.notify({
+        color: 'success',
+        title: title,
+        text: text
+      });
+    },
+    notifyWarning: function notifyWarning(title, text) {
+      this.$vs.notify({
+        color: 'warning',
+        title: title,
+        text: text
+      });
+    },
+    notifyFailure: function notifyFailure(title, text) {
+      this.$vs.notify({
+        color: 'danger',
+        title: title,
+        text: text
+      });
     }
   }
 });
@@ -229,108 +257,124 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
 
 /***/ }),
 
-/***/ 824:
+/***/ 826:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Profile_EditProfileForm__ = __webpack_require__(836);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Profile_EditProfileForm___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Profile_EditProfileForm__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_blockstack__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_blockstack___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_blockstack__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Profile_UserCard__ = __webpack_require__(822);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Profile_UserCard___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__Profile_UserCard__);
-
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-  components: {
-    EditProfileForm: __WEBPACK_IMPORTED_MODULE_0__Profile_EditProfileForm___default.a,
-    UserCard: __WEBPACK_IMPORTED_MODULE_1__Profile_UserCard___default.a
-  },
-  props: ['user'],
-  data: function data() {
-    return {};
-  }
-});
-
-/***/ }),
-
-/***/ 827:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_json_stringify__ = __webpack_require__(110);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_json_stringify___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_json_stringify__);
-
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__layout_starter_SampleNavbar_vue__ = __webpack_require__(314);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__layout_starter_SampleNavbar_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__layout_starter_SampleNavbar_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__layout_starter_SampleFooter_vue__ = __webpack_require__(313);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__layout_starter_SampleFooter_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__layout_starter_SampleFooter_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__layout_starter_Content_vue__ = __webpack_require__(311);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__layout_starter_Content_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__layout_starter_Content_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__layout_starter_MobileMenu__ = __webpack_require__(312);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__layout_starter_MobileMenu___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__layout_starter_MobileMenu__);
 
 
 var logger = __webpack_require__(26);
 
 var PUBLIC_STORAGE_FILE = 'public/publicInformation.json';
+var LISTING_FILE = 'Listing/listings.json';
+
+
+
+
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  name: 'profile',
+  components: {
+    TopNavbar: __WEBPACK_IMPORTED_MODULE_2__layout_starter_SampleNavbar_vue___default.a,
+    ContentFooter: __WEBPACK_IMPORTED_MODULE_3__layout_starter_SampleFooter_vue___default.a,
+    DashboardContent: __WEBPACK_IMPORTED_MODULE_4__layout_starter_Content_vue___default.a,
+    MobileMenu: __WEBPACK_IMPORTED_MODULE_5__layout_starter_MobileMenu___default.a,
+    UserCard: __WEBPACK_IMPORTED_MODULE_1__Profile_UserCard___default.a
+  },
   props: ['user'],
   data: function data() {
     return {
       blockstack: window.blockstack,
-      validPublic: false,
-      validPrivate: false,
-      nameField_Public: '',
-      emailField_Public: '',
       publicInformation: {
         name: '',
-        email: '',
-        description: '',
-        location: '',
-        nodeInformation: ''
-      }
+        email: ''
+      },
+      person: '',
+      personInfo: '',
+      username: '',
+      userNotFound: false,
+      loading: true,
+      userListings: ''
     };
   },
   mounted: function mounted() {
     this.fetchData();
+    this.getListings();
+  },
+  created: function created() {
+    this.profileId = this.$route.params.id;
   },
 
   methods: {
-    submitPublic: function submitPublic() {
+    fetchData: function fetchData() {
       var _this = this;
 
+      this.$vs.loading();
       var blockstack = this.blockstack;
+      var username = this.profileId;
 
-      logger.info('Saving public file', { file: PUBLIC_STORAGE_FILE });
-      return blockstack.putFile(PUBLIC_STORAGE_FILE, __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_json_stringify___default()(this.publicInformation), { encrypt: false }).then(function () {
-        _this.notifySuccess('Saved Profile', null);
+      logger.info('looking up profile', { username: username });
+      __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_blockstack__["lookupProfile"])(username).then(function (profile) {
+        logger.info('found profile', { username: username });
+        _this.person = new __WEBPACK_IMPORTED_MODULE_0_blockstack__["Person"](profile);
+        _this.username = username;
       }).catch(function (error) {
-        _this.notifyFailure('Failed To Save Profile', error.message);
+        logger.error('could not resolve profile: ' + error);
+        _this.userNotFound = true;
+        _this.loading = false;
+        _this.$vs.loading.close();
       });
-    },
-    clearPublic: function clearPublic() {
-      this.$refs.publicForm.reset();
-    },
-    fetchData: function fetchData() {
-      var _this2 = this;
 
-      var blockstack = this.blockstack;
-
-      blockstack.getFile(PUBLIC_STORAGE_FILE, { decrypt: false }).then(function (publicInformationJson) {
+      var options = { username: username, decrypt: false, verify: false };
+      blockstack.getFile(PUBLIC_STORAGE_FILE, options).then(function (publicInformationJson) {
+        logger.info('grabbed public information file for user', { username: username });
+        _this.loading = false;
         if (publicInformationJson !== null) {
           var publicInformation = JSON.parse(publicInformationJson || '[]');
-          _this2.publicInformation = publicInformation;
+          _this.publicInformation = publicInformation;
+          _this.personInfo = {
+            username: _this.username,
+            person: _this.person,
+            publicInformation: _this.publicInformation
+          };
+          _this.$vs.loading.close();
         }
+      }).catch(function (publicInfoError) {
+        console.error('could not resolve public info: ' + publicInfoError);
+        _this.loading = false;
+        _this.$vs.loading.close();
       });
     },
-    notifySuccess: function notifySuccess(title, text) {
-      this.$vs.notify({
-        color: 'success',
-        title: title,
-        text: text
-      });
-    },
-    notifyFailure: function notifyFailure(title, text) {
-      this.$vs.notify({
-        color: 'danger',
-        title: title,
-        text: text
+    getListings: function getListings() {
+      var _this2 = this;
+
+      this.$vs.loading();
+      var username = this.profileId;
+      var options = { username: username, decrypt: false, verify: false };
+      this.blockstack.getFile(LISTING_FILE, options).then(function (listingsJson) {
+        var userListings = JSON.parse(listingsJson || '');
+        if (userListings) {
+          logger.info('Grabbed user listings');
+          _this2.userListings = userListings;
+          _this2.$vs.loading.close();
+        }
+      }).catch(function () {
+        logger.info('Could not get user listings');
+        _this2.$vs.loading.close();
       });
     }
   }
@@ -338,7 +382,7 @@ var PUBLIC_STORAGE_FILE = 'public/publicInformation.json';
 
 /***/ }),
 
-/***/ 829:
+/***/ 828:
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(813)(true);
@@ -346,208 +390,99 @@ exports = module.exports = __webpack_require__(813)(true);
 
 
 // module
-exports.push([module.i, "", "", {"version":3,"sources":[],"names":[],"mappings":"","file":"EditProfile.vue","sourceRoot":""}]);
+exports.push([module.i, "", "", {"version":3,"sources":[],"names":[],"mappings":"","file":"Profile.vue","sourceRoot":""}]);
 
 // exports
 
 
 /***/ }),
 
-/***/ 831:
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(813)(true);
-// imports
-
-
-// module
-exports.push([module.i, "", "", {"version":3,"sources":[],"names":[],"mappings":"","file":"EditProfileForm.vue","sourceRoot":""}]);
-
-// exports
-
-
-/***/ }),
-
-/***/ 833:
+/***/ 832:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(829);
+var content = __webpack_require__(828);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(814)("17c708e2", content, true, {});
+var update = __webpack_require__(814)("8487c9e2", content, true, {});
 
 /***/ }),
 
-/***/ 835:
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(831);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(814)("a75e6068", content, true, {});
-
-/***/ }),
-
-/***/ 836:
-/***/ (function(module, exports, __webpack_require__) {
-
-function injectStyle (ssrContext) {
-  __webpack_require__(835)
-}
-var Component = __webpack_require__(4)(
-  /* script */
-  __webpack_require__(827),
-  /* template */
-  __webpack_require__(840),
-  /* styles */
-  injectStyle,
-  /* scopeId */
-  null,
-  /* moduleIdentifier (server only) */
-  null
-)
-
-module.exports = Component.exports
-
-
-/***/ }),
-
-/***/ 838:
+/***/ 837:
 /***/ (function(module, exports) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
-    staticClass: "row"
-  }, [_c('div', {
-    staticClass: "col-md-8"
-  }, [_c('edit-profile-form', {
+    staticClass: "wrapper"
+  }, [_c('side-bar', {
     attrs: {
-      "user": _vm.user
+      "title": "Local Lightning"
     }
-  })], 1)])
-},staticRenderFns: []}
-
-/***/ }),
-
-/***/ 840:
-/***/ (function(module, exports) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('card', [_c('h5', {
-    staticClass: "title",
+  }, [_c('template', {
+    slot: "links"
+  }, [_c('sidebar-link', {
+    attrs: {
+      "to": "/home",
+      "name": _vm.$t('sidebar.listings'),
+      "icon": "tim-icons icon-paper"
+    }
+  }), _vm._v(" "), _c('sidebar-link', {
+    attrs: {
+      "to": "/following",
+      "name": _vm.$t('sidebar.following'),
+      "icon": "tim-icons icon-single-02"
+    }
+  }), _vm._v(" "), _c('sidebar-link', {
+    attrs: {
+      "to": "/settings",
+      "name": _vm.$t('sidebar.settings'),
+      "icon": "tim-icons icon-settings"
+    }
+  })], 1)], 2), _vm._v(" "), _c('div', {
+    staticClass: "main-panel"
+  }, [_c('top-navbar'), _vm._v(" "), _c('div', {
+    staticClass: "content"
+  }, [_c('user-card', {
+    attrs: {
+      "user": _vm.personInfo
+    }
+  }), _vm._v(" "), _c('card', {
+    staticClass: "card",
+    attrs: {
+      "header-classes": {
+        'text-right': _vm.isRTL
+      }
+    }
+  }, [_c('h4', {
+    staticClass: "card-title",
     attrs: {
       "slot": "header"
     },
     slot: "header"
-  }, [_vm._v("Edit Profile")]), _vm._v(" "), _c('div', {
-    staticClass: "row"
   }, [_c('div', {
-    staticClass: "col-md-3 px-md-1"
-  }, [_c('base-input', {
+    staticClass: "row app-margin"
+  }, [_vm._v("\n              Listings\n            ")])]), _vm._v(" "), _c('base-table', {
     attrs: {
-      "label": "Name",
-      "placeholder": "Name"
+      "data": _vm.userListings,
+      "columns": _vm.columns
     },
-    model: {
-      value: (_vm.publicInformation.name),
-      callback: function($$v) {
-        _vm.$set(_vm.publicInformation, "name", $$v)
-      },
-      expression: "publicInformation.name"
-    }
-  })], 1), _vm._v(" "), _c('div', {
-    staticClass: "col-md-4 pl-md-1"
-  }, [_c('base-input', {
-    attrs: {
-      "label": "Email address",
-      "type": "email",
-      "placeholder": "Email"
-    },
-    model: {
-      value: (_vm.publicInformation.email),
-      callback: function($$v) {
-        _vm.$set(_vm.publicInformation, "email", $$v)
-      },
-      expression: "publicInformation.email"
-    }
-  })], 1), _vm._v(" "), _c('div', {
-    staticClass: "col-md-6 pr-md-1"
-  }, [_c('base-input', {
-    attrs: {
-      "label": "Location",
-      "placeholder": "Location"
-    },
-    model: {
-      value: (_vm.publicInformation.location),
-      callback: function($$v) {
-        _vm.$set(_vm.publicInformation, "location", $$v)
-      },
-      expression: "publicInformation.location"
-    }
-  })], 1)]), _vm._v(" "), _c('div', {
-    staticClass: "row"
-  }, [_c('div', {
-    staticClass: "col-md-12"
-  }, [_c('base-input', {
-    attrs: {
-      "label": "Node Information",
-      "placeholder": "Node Information"
-    },
-    model: {
-      value: (_vm.publicInformation.nodeInformation),
-      callback: function($$v) {
-        _vm.$set(_vm.publicInformation, "nodeInformation", $$v)
-      },
-      expression: "publicInformation.nodeInformation"
-    }
-  })], 1)]), _vm._v(" "), _c('div', {
-    staticClass: "row"
-  }, [_c('div', {
-    staticClass: "col-md-8"
-  }, [_c('base-input', [_c('label', [_vm._v("About Me")]), _vm._v(" "), _c('textarea', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.publicInformation.description),
-      expression: "publicInformation.description"
-    }],
-    staticClass: "form-control",
-    attrs: {
-      "rows": "4",
-      "cols": "80",
-      "placeholder": "Here can be your description"
-    },
-    domProps: {
-      "value": (_vm.publicInformation.description)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.$set(_vm.publicInformation, "description", $event.target.value)
+    scopedSlots: _vm._u([{
+      key: "default",
+      fn: function(ref) {
+        var row = ref.row;
+
+        return [_c('td', [_vm._v(_vm._s(row.attrs.name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(row.attrs.city))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(row.attrs.state))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(row.attrs.country))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(row.attrs.capacity))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(row.attrs.currency))])]
       }
-    }
-  })])], 1)]), _vm._v(" "), _c('base-button', {
-    attrs: {
-      "slot": "footer",
-      "type": "primary",
-      "fill": ""
-    },
-    on: {
-      "click": _vm.submitPublic
-    },
-    slot: "footer"
-  }, [_vm._v("Save")])], 1)
+    }])
+  }, [_c('template', {
+    slot: "columns"
+  }, [_c('th', [_vm._v("Name")]), _vm._v(" "), _c('th', [_vm._v("City")]), _vm._v(" "), _c('th', [_vm._v("State")]), _vm._v(" "), _c('th', [_vm._v("Country")]), _vm._v(" "), _c('th', [_vm._v("Capacity")]), _vm._v(" "), _c('th', [_vm._v("Currency")])])], 2)], 1)], 1), _vm._v(" "), _c('content-footer')], 1)], 1)
 },staticRenderFns: []}
 
 /***/ })
 
 });
-//# sourceMappingURL=0.00e521fc5931f8b8c37a.js.map
+//# sourceMappingURL=1.9e9b1df3e48a5a641a80.js.map
