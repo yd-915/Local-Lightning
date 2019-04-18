@@ -7,6 +7,9 @@ var HtmlWebpackPlugin = require('html-webpack-plugin')
 var FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 var Dotenv = require('dotenv-webpack')
 
+var env = config.dev.env
+env.PACKAGE_JSON = '"' + escape(JSON.stringify(require('../package'))) + '"'
+
 // add hot-reload related code to entry chunks
 Object.keys(baseWebpackConfig.entry).forEach(function (name) {
   baseWebpackConfig.entry[name] = ['./build/dev-client'].concat(baseWebpackConfig.entry[name])
@@ -21,7 +24,7 @@ module.exports = merge(baseWebpackConfig, {
   plugins: [
     new Dotenv(),
     new webpack.DefinePlugin({
-      'process.env': config.dev.env
+      'process.env': env
     }),
     // https://github.com/glenjamin/webpack-hot-middleware#installation--usage
     new webpack.HotModuleReplacementPlugin(),

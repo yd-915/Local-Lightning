@@ -11,6 +11,7 @@ var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 var Dotenv = require('dotenv-webpack')
 
 var env = config.build.env
+env.PACKAGE_JSON = '"' + escape(JSON.stringify(require('../package.json'))) + '"'
 
 var webpackConfig = merge(baseWebpackConfig, {
   module: {
