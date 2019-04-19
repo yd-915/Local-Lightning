@@ -322,7 +322,7 @@ export default {
         listing.saveLN().then((result) => {
           console.log(result)
           this.notifySuccess('Saved Listing', 'Listing saved to your storage')
-          Listing.addInvoiceStreamListener(result.id, this.newLNListener.bind(this))
+          Listing.addInvoiceStreamListener(result.id, this.newLNListener)
           this.listing = listing
           this.invoice = result
           this.saveListingToUser(this.listing)
@@ -357,6 +357,8 @@ export default {
         console.log(`invoice from ws: ${invoiceReceived}`)
         console.log(`invoice id: ${invoiceReceived.id}`)
         if (invoiceReceived.status === 'paid') {
+          // todo why wont these sockets close properly
+          // Listing.removeInvoiceStreamListener(this.invoice.id, this.newLNListener)
           this.paid = true
           this.invoice = ''
           this.popupActive = false
