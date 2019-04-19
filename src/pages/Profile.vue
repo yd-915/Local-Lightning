@@ -90,8 +90,6 @@
       person: '',
       personInfo: '',
       username: '',
-      userNotFound: false,
-      loading: true,
       userListings: ''
     }),
     mounted () {
@@ -116,8 +114,7 @@
           })
           .catch((error) => {
             logger.error('could not resolve profile: ' + error)
-            this.userNotFound = true
-            this.loading = false
+            this.notifyFailure('User Not Found')
             this.$vs.loading.close()
           })
 
@@ -127,7 +124,7 @@
         blockstack.getFile(PUBLIC_STORAGE_FILE, options)
           .then((publicInformationJson) => {
             logger.info('grabbed public information file for user', { username: username })
-            this.loading = false
+            this.$vs.loading.close()
             if (publicInformationJson !== null) {
               var publicInformation = JSON.parse(publicInformationJson || '[]')
               this.publicInformation = publicInformation
@@ -136,12 +133,10 @@
                 person: this.person,
                 publicInformation: this.publicInformation
               }
-              this.$vs.loading.close()
             }
           })
           .catch((publicInfoError) => {
             console.error('could not resolve public info: ' + publicInfoError)
-            this.loading = false
             this.$vs.loading.close()
           })
       },
@@ -162,6 +157,13 @@
             logger.info('Could not get user listings')
             this.$vs.loading.close()
           })
+      },
+      notifyFailure (title, text) {
+        this.$vs.notify({
+          color: 'danger',
+          title: title,
+          text: text
+        })
       }
     }
   }
