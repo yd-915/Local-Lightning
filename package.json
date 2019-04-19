@@ -1,6 +1,6 @@
 {
   "name": "LocalLightning",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "A blockstack lightning application",
   "author": "Anthony Ronning <cycryptr@protonmail.com>",
   "private": true,
@@ -26,7 +26,7 @@
     "material-icons": "^0.3.1",
     "node-sass": "^4.11.0",
     "qrious": "^4.0.2",
-    "radiks": "https://github.com/AnthonyRonning/radiks/tarball/3c7bd7ff0a7da5fb11ff4ce7edcc278f99935eb4",
+    "radiks": "https://github.com/AnthonyRonning/radiks/tarball/e9908d602ebb0194d7cb19c1f66d32d80ae591cb",
     "raven-js": "^3.27.0",
     "sass-loader": "^6.0.5",
     "slick-carousel": "^1.8.1",
