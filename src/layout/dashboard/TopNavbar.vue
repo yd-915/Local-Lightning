@@ -129,7 +129,7 @@ export default {
     },
     methods: {
       capitalizeFirstLetter (string) {
-        return string.charAt(0).toUpperCase() + string.slice(1)
+        return string === '' ? string.charAt(0).toUpperCase() + string.slice(1)
       },
       toggleNotificationDropDown () {
         this.activeNotifications = !this.activeNotifications

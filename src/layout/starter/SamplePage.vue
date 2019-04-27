@@ -25,9 +25,18 @@
         <h4 slot="header" class="card-title">
           <div class="row app-margin">
             {{tableMode === 'Selling' ? $t('dashboard.sellingTable') : $t('dashboard.buyingTable')}}
-            <base-button class="app-left-margin app-top-minus-two-margin" type="info" size="sm" app-margin icon @click="activePrompt2 = true">
+
+            <!-- button - add listing -->
+            <base-button v-if="signedIn"
+                         class="app-left-margin app-top-minus-two-margin"
+                         type="info"
+                         size="sm"
+                         app-margin i
+                         con
+                         @click="activePrompt2 = true">
               <i class="tim-icons icon-simple-add"></i>
             </base-button>
+
             <!-- dropdown -->
             <div class="col-sm-6 ml-auto">
               <div class="btn-group btn-group-toggle"
@@ -203,6 +212,9 @@ export default {
       this.loadWebln()
     },
     computed: {
+      signedIn () {
+        return this.blockstack.isUserSignedIn()
+      }
     },
     methods: {
       searchLocation () {
@@ -221,25 +233,29 @@ export default {
         this.$router.push({ path: `/profile/${username}/` })
       },
       getUser () {
-        this.radiksUser = User.currentUser()
-        this.userData = this.blockstack.loadUserData()
+        if (this.blockstack.isUserSignedIn()) {
+          this.radiksUser = User.currentUser()
+          this.userData = this.blockstack.loadUserData()
+        }
       },
       ensurePubKey () {
-      // store public key if not currently loaded
-        this.blockstack.getFile(PUBLIC_KEY, { decrypt: false }) // decryption is enabled by default
-        .then((pubKeyJson) => {
-          var pubKeyExists = JSON.parse(pubKeyJson || '')
-          if (!pubKeyExists) {
+        if (this.blockstack.isUserSignedIn()) {
+        // store public key if not currently loaded
+          this.blockstack.getFile(PUBLIC_KEY, { decrypt: false }) // decryption is enabled by default
+          .then((pubKeyJson) => {
+            var pubKeyExists = JSON.parse(pubKeyJson || '')
+            if (!pubKeyExists) {
+              var pubKey = getPublicKeyFromPrivate(this.blockstack.loadUserData().appPrivateKey)
+              logger.info('Saving public key', { publicKey: pubKey })
+              this.blockstack.putFile(PUBLIC_KEY, JSON.stringify(pubKey), { encrypt: false })
+            }
+          })
+          .catch(() => {
             var pubKey = getPublicKeyFromPrivate(this.blockstack.loadUserData().appPrivateKey)
-            logger.info('Saving public key', { publicKey: pubKey })
+            logger.info('Could not detect public key stored, saving..', { publicKey: pubKey })
             this.blockstack.putFile(PUBLIC_KEY, JSON.stringify(pubKey), { encrypt: false })
-          }
-        })
-        .catch(() => {
-          var pubKey = getPublicKeyFromPrivate(this.blockstack.loadUserData().appPrivateKey)
-          logger.info('Could not detect public key stored, saving..', { publicKey: pubKey })
-          this.blockstack.putFile(PUBLIC_KEY, JSON.stringify(pubKey), { encrypt: false })
-        })
+          })
+        }
       },
       getListings () {
         this.blockstack.getFile(LISTING_FILE, { decrypt: false }) // decryption is enabled by default
@@ -255,14 +271,16 @@ export default {
         })
       },
       saveListingToUser (listing) {
-        console.log('Adding listing to user\'s file')
-        if (this.userListings && this.userListings.length > 0) {
-          // this.userListings = [listing]
-          this.userListings.push(listing)
-        } else {
-          this.userListings = [listing]
+        if (this.blockstack.isUserSignedIn()) {
+          console.log('Adding listing to user\'s file')
+          if (this.userListings && this.userListings.length > 0) {
+            // this.userListings = [listing]
+            this.userListings.push(listing)
+          } else {
+            this.userListings = [listing]
+          }
+          this.blockstack.putFile(LISTING_FILE, JSON.stringify(this.userListings), {encrypt: false})
         }
-        this.blockstack.putFile(LISTING_FILE, JSON.stringify(this.userListings), { encrypt: false })
       },
       loadListings () {
         console.log('Attempting to load listingsSelling')
@@ -430,7 +448,7 @@ export default {
       },
       canDelete (createdBy) {
         return (
-          this.userData.username === createdBy
+          this.userData === '' ? false : this.userData.username === createdBy
         )
       },
       deleteListing (listing) {

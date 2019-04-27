@@ -29,7 +29,7 @@
       </p>
     </div>
     <div slot="footer" class="button-container">
-      <base-button round @click="addFollow">
+      <base-button v-if="signedIn" round @click="addFollow">
         Follow
       </base-button>
       <base-button round @click="emailUser">
@@ -70,6 +70,9 @@
           return this.user.publicInformation.nodeInformation
         }
         return ''
+      },
+      signedIn () {
+        return this.blockstack.isUserSignedIn()
       }
     },
     methods: {

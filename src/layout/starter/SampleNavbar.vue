@@ -42,7 +42,10 @@
                    :show-close="true">
               <input slot="header" v-model="search" type="text" class="form-control" id="inlineFormInputGroup" placeholder="SEARCH" v-on:keyup.enter="searchUser">
             </modal>
-            <base-dropdown tag="li"
+
+            <!-- settings dropdown -->
+            <base-dropdown v-if="signedIn"
+                           tag="li"
                            :menu-on-right="!$rtl.isRTL"
                            title-tag="a"
                            class="nav-item"
@@ -72,6 +75,9 @@
           </ul>
         </div>
       </collapse-transition>
+
+      <!-- sign in button -->
+      <button v-if="!signedIn" class="btn btn-default" @click.prevent="radiksSignIn">Sign In</button>
     </div>
   </nav>
 </template>
@@ -93,6 +99,9 @@ export default {
       },
       isRTL () {
         return this.$rtl.isRTL
+      },
+      signedIn () {
+        return this.blockstack.isUserSignedIn()
       }
     },
     data: () => ({
@@ -103,9 +112,17 @@ export default {
       blockstack: window.blockstack,
       userSearch: '',
       activeItem: 5,
-      search: ''
+      search: '',
+      userSession: null
     }),
+    mounted () {
+    },
     methods: {
+      loadUserData () {
+        const { userSession } = getConfig()
+        this.userSession = userSession
+        // console.log('user is signed in: ' + this.blockstack.isUserSignedIn())
+      },
       capitalizeFirstLetter (string) {
         return string.charAt(0).toUpperCase() + string.slice(1)
       },
@@ -134,13 +151,15 @@ export default {
         logger.info('searching for user: ' + this.search)
         this.$router.push({ path: `/profile/${username}/` })
       },
+      radiksSignIn () {
+        const { userSession } = getConfig()
+        userSession.redirectToSignIn()
+      },
       signOut () {
         this.blockstack.signUserOut(window.location.href)
         const { userSession } = getConfig()
         userSession.signUserOut()
-          .then(() => {
-            this.$router.push('/home')
-          })
+        this.$router.push('/home?signedOut=True')
         // this.user = null
         // this.radiksUser = null
       }
