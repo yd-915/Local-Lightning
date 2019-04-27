@@ -161,7 +161,8 @@
       <!-- WelcomeModal -->
       <modal :show.sync="showWelcome"
              body-classes="p-0"
-             modal-classes="modal-dialog-centered modal-sm bottom-25">
+             modal-classes="modal-dialog-centered modal-sm bottom-25"
+             @close="setViewedWelcome">
         <card type="secondary"
               header-classes="bg-white pb-5"
               body-classes="px-lg-5 py-lg-5"
