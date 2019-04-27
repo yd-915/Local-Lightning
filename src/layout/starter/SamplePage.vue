@@ -73,9 +73,13 @@
             <td>{{row.attrs.capacity}}</td>
             <td>{{row.attrs.currency}}</td>
             <td class="td-actions text-right">
+
+              <!-- button - view user -->
               <base-button type="info" size="sm" icon @click="loadUser(row.attrs.createdBy)">
                 <i class="tim-icons icon-single-02"></i>
               </base-button>
+
+              <!-- button delete listing -->
               <base-button type="danger" size="sm" icon v-if="canDelete(row.attrs.createdBy)" @click="deleteListing(row)">
                 <i class="tim-icons icon-simple-remove"></i>
               </base-button>

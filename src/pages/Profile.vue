@@ -29,7 +29,6 @@
               <th>Country</th>
               <th>Capacity</th>
               <th>Currency</th>
-              <!--<th class="text-right">Actions</th>-->
             </template>
             <template slot-scope="{row}">
               <td>{{row.attrs.name}}</td>
@@ -38,14 +37,14 @@
               <td>{{row.attrs.country}}</td>
               <td>{{row.attrs.capacity}}</td>
               <td>{{row.attrs.currency}}</td>
-<!--              <td class="td-actions text-right">
-                <base-button type="info" size="sm" icon @click="loadUser(row.attrs.createdBy)">
-                  <i class="tim-icons icon-single-02"></i>
-                </base-button>
-                <base-button type="danger" size="sm" icon v-if="canDelete(row.attrs.createdBy)" @click="deleteListing(row)">
+              <td  v-if="canDelete(row.attrs.createdBy)"
+                   class="td-actions text-right">
+
+                <!-- button delete listing -->
+                <base-button type="danger" size="sm" icon @click="deleteListing(row)">
                   <i class="tim-icons icon-simple-remove"></i>
                 </base-button>
-              </td>-->
+              </td>
             </template>
           </base-table>
         </card>
@@ -63,6 +62,8 @@
     Person,
     lookupProfile
   } from 'blockstack'
+  import { User } from 'radiks'
+  import Listing from '../assets/models/Listing'
   var PUBLIC_STORAGE_FILE = 'public/publicInformation.json'
   var LISTING_FILE = 'Listing/listings.json'
   import UserCard from './Profile/UserCard'
@@ -90,11 +91,13 @@
       person: '',
       personInfo: '',
       username: '',
-      userListings: ''
+      userListings: '',
+      userData: ''
     }),
     mounted () {
       this.fetchData()
       this.getListings()
+      this.getUser()
     },
     created () {
       this.profileId = this.$route.params.id
@@ -162,6 +165,52 @@
             logger.info('Could not get user listings')
             this.$vs.loading.close()
           })
+      },
+      deleteListing (listing) {
+        const listingToDelete = listing
+        const index = this.userListings.indexOf(listingToDelete)
+        confirm('Are you sure you want to delete this listing?') &&
+        this.userListings.splice(index, 1) &&
+        this.updateListings()
+
+        Listing.findById(listingToDelete._id)
+          .then((radiksListing) => {
+            radiksListing.destroy().then(() => {
+              // this.notifySuccess('Deleted Listing from Radiks', null)
+              this.loadListings()
+            })
+          })
+          .catch((error) => {
+            logger.info('failed to delete listing from server: ' + error)
+            this.notifyFailure('Failed To Delete Listing from server', null)
+          })
+      },
+      updateListings () {
+        this.blockstack.putFile(LISTING_FILE, JSON.stringify(this.userListings), {encrypt: false})
+          .then(() => {
+            this.notifySuccess('Removed', 'Removed listing')
+          })
+          .catch((error) => {
+            this.notifyFailure('Failure To Delete Listing from your storage', error)
+          })
+      },
+      getUser () {
+        if (this.blockstack.isUserSignedIn()) {
+          this.radiksUser = User.currentUser()
+          this.userData = this.blockstack.loadUserData()
+        }
+      },
+      canDelete (createdBy) {
+        return (
+          this.userData === '' ? false : this.userData.username === createdBy
+        )
+      },
+      notifySuccess (title, text) {
+        this.$vs.notify({
+          color: 'success',
+          title: title,
+          text: text
+        })
       },
       notifyFailure (title, text) {
         this.$vs.notify({
