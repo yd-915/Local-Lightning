@@ -1,10 +1,13 @@
 <template>
   <div id="app">
     <!-- <landing v-if="! blockstack.isUserSignedIn() && ! blockstack.isSignInPending()"></landing> -->
-    <landing v-if="! userSession.isUserSignedIn() && ! userSession.isSignInPending()"></landing>
+    <!-- <landing v-if="! userSession.isUserSignedIn() && ! userSession.isSignInPending()"></landing> -->
     <!--<dashboard v-if="user" :user="user"></dashboard>-->
     <!-- <router-view :key="$route.fullPath" :user="user" v-if="blockstack.isUserSignedIn()"></router-view> -->
-    <router-view :key="$route.fullPath" :user="user" v-if="userSession.isUserSignedIn()"></router-view>
+    <router-view
+      :key="$route.fullPath"
+      :user="user"
+      :logged-in="userSession.isUserSignedIn()"></router-view>
   </div>
 </template>
 

@@ -1,6 +1,6 @@
 {
   "name": "LocalLightning",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "A blockstack lightning application",
   "author": "Anthony Ronning <cycryptr@protonmail.com>",
   "private": true,
@@ -8,6 +8,8 @@
     "dev": "node build/dev-server.js",
     "start": "node server.js",
     "build": "node build/build.js",
+    "version": "npm run build && git add -A dist",
+    "postversion": "git push && git push --tags",
     "lint": "eslint --ext .js,.vue src",
     "heroku-postbuild": "echo Skip build on Heroku"
   },

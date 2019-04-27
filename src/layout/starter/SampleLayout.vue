@@ -3,8 +3,8 @@
     <side-bar title="Local Lightning">
       <template slot="links">
         <sidebar-link to="/home" :name="$t('sidebar.listings')" icon="tim-icons icon-paper"/>
-        <sidebar-link to="/following" :name="$t('sidebar.following')" icon="tim-icons icon-single-02"/>
-        <sidebar-link to="/settings" :name="$t('sidebar.settings')" icon="tim-icons icon-settings"/>
+        <sidebar-link v-if="signedIn" to="/following" :name="$t('sidebar.following')" icon="tim-icons icon-single-02"/>
+        <sidebar-link v-if="signedIn" to="/settings" :name="$t('sidebar.settings')" icon="tim-icons icon-settings"/>
       </template>
     </side-bar>
     <div class="main-panel">
@@ -32,6 +32,14 @@ export default {
       ContentFooter,
       DashboardContent,
       MobileMenu
+    },
+    data: () => ({
+      blockstack: window.blockstack
+    }),
+    computed: {
+      signedIn () {
+        return this.blockstack.isUserSignedIn()
+      }
     },
     methods: {
       toggleSidebar () {
