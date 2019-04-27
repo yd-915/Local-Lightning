@@ -91,7 +91,7 @@
       <div>
         <modal :show.sync="activePrompt2"
                body-classes="p-0"
-               modal-classes="modal-dialog-centered modal-sm">
+               modal-classes="modal-dialog-centered modal-sm bottom-25">
           <card type="secondary"
                 header-classes="bg-white pb-5"
                 body-classes="px-lg-5 py-lg-5"
@@ -136,7 +136,7 @@
       <!-- InvoiceModal -->
       <modal :show.sync="popupActive"
              body-classes="p-0"
-             modal-classes="modal-dialog-centered modal-sm">
+             modal-classes="modal-dialog-centered modal-sm bottom-25">
         <card type="secondary"
               header-classes="bg-white pb-5"
               body-classes="px-lg-5 py-lg-5"
@@ -493,4 +493,7 @@ export default {
 }
 </script>
 <style>
+  .bottom-25 {
+    bottom: 25%;
+  }
 </style>
