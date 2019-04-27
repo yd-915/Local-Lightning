@@ -158,6 +158,44 @@
         </card>
       </modal>
       <!-- endof InvoiceModal-->
+      <!-- WelcomeModal -->
+      <modal :show.sync="showWelcome"
+             body-classes="p-0"
+             modal-classes="modal-dialog-centered modal-sm bottom-25">
+        <card type="secondary"
+              header-classes="bg-white pb-5"
+              body-classes="px-lg-5 py-lg-5"
+              class="border-0 mb-0">
+          <template>
+            <div class="text-center text-white mb-4">
+              <h3>⚡️ Welcome to Local Lightning! ⚡️</h3>
+              <h4>
+                Local Lightning was created to connect those wishing to sell or buy bitcoin locally.
+              </h4>
+              <p class="text-center text-white mb-4">
+                By utilizing the Lightning Network on top of Bitcoin, users may take advantage of instant
+                sending and receiving of Bitcoin without the need to wait for confirmation times.
+              </p>
+              <p class="text-center text-white mb-4">
+                Unlike similar websites, Local Lightning never holds onto or manages user funds.
+              </p>
+              <p class="text-center text-white mb-4">
+                To learning more about the Lightning network, please check out
+                <a target="_blank" href="https://coincenter.org/entry/what-is-the-lightning-network">
+                  this article.
+                </a>
+              </p>
+            </div>
+            <div class="text-center text-muted mb-4">
+              <a target="_blank" href="https://btcpay.locallightning.net/embed/GUktQV4Mkvth4iU7oy4XGSvcEiRH2uFad7kxJX5LwsK6/BTC/ln">Optionally connect to Local Lightning's Node</a>
+            </div>
+            <div class="text-center">
+              <base-button type="primary" class="my-4" @click="setViewedWelcome">Get Started</base-button>
+            </div>
+          </template>
+        </card>
+      </modal>
+      <!-- endof WelcomeModal -->
     </div>
   </div>
 </template>
@@ -199,6 +237,7 @@ export default {
       paid: false,
       invoice: '',
       popupActive: false,
+      showWelcome: false,
       userListings: '',
       selected: '',
       webln: null,
@@ -209,6 +248,7 @@ export default {
       userData: ''
     }),
     mounted () {
+      this.checkIfViewedWelcome()
       this.ensurePubKey()
       this.getUser()
       this.loadListings()
@@ -425,6 +465,16 @@ export default {
             this.$vs.loading.close()
             this.notifyFailure('Did not save Listing', 'Error saving listing to user\'s storage')
           })
+      },
+      checkIfViewedWelcome () {
+        const viewedWelcome = localStorage.getItem('welcome')
+        if (!viewedWelcome) {
+          this.showWelcome = true
+        }
+      },
+      setViewedWelcome () {
+        localStorage.setItem('welcome', true)
+        this.showWelcome = false
       },
       newLNListener (invoiceReceived) {
       // const { invoice } = this.state
