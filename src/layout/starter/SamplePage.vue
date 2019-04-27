@@ -319,6 +319,58 @@ export default {
         console.log('creating new listing for: ' + listing.attrs.name + ' id: ' + listing._id)
         console.log(listing)
 
+        listing.save().then((result) => {
+          console.log(result)
+          this.notifySuccess('Listing Saved')
+          // Listing.addInvoiceStreamListener(result.id, this.newLNListener)
+          this.listing = listing
+          this.invoice = result
+          this.saveListingToUser(this.listing)
+          this.$vs.loading.close()
+/*          this.popupActive = true
+          var qr = new QRious({
+            element: document.getElementById('qrcode'),
+            value: this.invoice.payreq,
+            background: 'white', // background color
+            foreground: 'black', // foreground color
+            backgroundAlpha: 1,
+            foregroundAlpha: 1,
+            level: 'L', // Error correction level of the QR code (L, M, Q, H)
+            mime: 'image/png', // MIME type used to render the image for the QR code
+            size: 200, // Size of the QR code in pixels.
+            padding: null // padding in pixels
+          })
+          console.log(qr)
+
+          if (this.webln) {
+            this.webln.sendPayment(this.invoice.payreq)
+          } */
+
+          this.loadListings()
+        })
+        .catch((error) => {
+          console.log('error saving listing: ' + error)
+          this.$vs.loading.close()
+          this.notifyFailure('Did not save Listing', 'Error saving listing to user\'s storage')
+        })
+      },
+      acceptAlertInvoice () {
+        this.$vs.loading()
+        this.activePrompt2 = false
+        const listing = new Listing({
+          name: this.radiksUser._id,
+          city: this.newListing.city,
+          state: this.newListing.state,
+          country: this.newListing.country,
+          capacity: this.newListing.capacity,
+          currency: this.tableMode === 'Selling' ? 'BTC' : this.newListing.currency,
+          type: this.tableMode,
+          createdBy: this.radiksUser._id
+        })
+
+        console.log('creating new listing for: ' + listing.attrs.name + ' id: ' + listing._id)
+        console.log(listing)
+
         listing.saveLN().then((result) => {
           console.log(result)
           this.notifySuccess('Saved Listing', 'Listing saved to your storage')
@@ -346,11 +398,11 @@ export default {
             this.webln.sendPayment(this.invoice.payreq)
           }
         })
-        .catch((error) => {
-          console.log('error saving listing: ' + error)
-          this.$vs.loading.close()
-          this.notifyFailure('Did not save Listing', 'Error saving listing to user\'s storage')
-        })
+          .catch((error) => {
+            console.log('error saving listing: ' + error)
+            this.$vs.loading.close()
+            this.notifyFailure('Did not save Listing', 'Error saving listing to user\'s storage')
+          })
       },
       newLNListener (invoiceReceived) {
       // const { invoice } = this.state
