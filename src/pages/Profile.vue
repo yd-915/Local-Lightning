@@ -224,5 +224,13 @@
 </script>
 
 <style scoped>
-
+  .app-margin {
+    margin: 10px;
+  }
+  .app-left-margin {
+    margin-left: 10px;
+  }
+  .app-top-minus-two-margin {
+    margin-top: -2px;
+  }
 </style>

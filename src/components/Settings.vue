@@ -104,7 +104,15 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-
+  .app-margin {
+    margin: 10px;
+  }
+  .app-left-margin {
+    margin-left: 10px;
+  }
+  .app-top-minus-two-margin {
+    margin-top: -2px;
+  }
   input::placeholder {
     color: grey;
   }
