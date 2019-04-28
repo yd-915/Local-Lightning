@@ -78,6 +78,23 @@
 
       <!-- sign in button -->
       <button v-if="!signedIn" class="btn btn-default" @click.prevent="radiksSignIn">Sign In</button>
+
+      <!-- locale changer -->
+      <div class="locale-changer">
+        <!--<select v-model="$i18n.locale">
+          <option v-for="(lang, i) in langs" :key="`Lang${i}`" :value="lang">{{ lang }}</option>
+        </select>-->
+
+        <vs-select
+          v-model="locale"
+          width="50px"
+        >
+          <vs-select-item :key="`Lang${i}`"
+                          :value="lang"
+                          :text="lang"
+                          v-for="(lang, i) in langs" />
+        </vs-select>
+      </div>
     </div>
   </nav>
 </template>
@@ -113,9 +130,19 @@ export default {
       userSearch: '',
       activeItem: 5,
       search: '',
-      userSession: null
+      userSession: null,
+      langs: ['en', 'es'],
+      locale: 'en'
     }),
+    watch: {
+      locale: function (newLang, oldLang) {
+        console.log('language changed from ' + oldLang)
+        this.$i18n.locale = newLang
+        localStorage.setItem('locale', newLang)
+      }
+    },
     mounted () {
+      this.loadLocale()
     },
     methods: {
       loadUserData () {
@@ -162,6 +189,12 @@ export default {
         this.$router.push('/home?signedOut=True')
         // this.user = null
         // this.radiksUser = null
+      },
+      loadLocale () {
+        const locale = localStorage.getItem('locale')
+        if (locale !== null) {
+          this.$i18n.locale = locale
+        }
       }
     }
   }

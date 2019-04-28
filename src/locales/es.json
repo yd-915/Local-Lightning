@@ -1,0 +1,67 @@
+{
+	"dashboard": {
+		"buyingTable": "Comprando BTC a través de Lightning",
+		"followingList": "Lista De Seguidores"
+	},
+	"general": {
+		"actions": "Comportamiento",
+		"buying": "Comprando",
+		"capacity": "Capacidad",
+		"city": "Ciudad",
+		"country": "País",
+		"currency": "Moneda",
+		"name": "Nombre",
+		"selling": "De Venta",
+		"state": "Estado"
+	},
+	"home": {
+		"invoiceModal": {
+			"connectToLightningNode": "Conéctate al Nodo Relámpago de LocalLightning",
+			"savedPayInvoice": "Guardados en el almacenamiento del usuario, pagar factura para publicar en el feed de listado"
+		},
+		"notify": {
+			"deletedListing": "Listado borrado",
+			"deletedListingFailed": "Error al eliminar la lista",
+			"error": "Error",
+			"errorSavingUserStorage": "Error al guardar la lista en el almacenamiento del usuario",
+			"invoicePaid": "Factura pagada",
+			"invoicePaidDesc": "Listado publicado en el feed de listado",
+			"listingDiscarded": "Listado Descartado",
+			"listingSaved": "Listado guardado",
+			"listingSavedToYourStorage": "Listado guardado en su almacenamiento"
+		},
+		"search": {
+			"city": "Buscar ciudad",
+			"country": "Buscar pais",
+			"state": "Estado de búsqueda"
+		},
+		"table": {
+			"buyingTable": "Comprando BTC",
+			"listingType": "Tipo de listado",
+			"postBuyListing": "Publicar listado de compra",
+			"postSellListing": "Publicar anuncio de venta",
+			"sellingTable": "Vendiendo BTC"
+		},
+		"welcome": {
+			"getStarted": "Empezar",
+			"header": "Bienvenido a Local Lightning!",
+			"learnMore": "Para aprender más sobre la red Lightning, por favor, echa un vistazo a",
+			"optionallyConnectToNode": "Opcionalmente, conecte al Nodo de Rayo Local",
+			"paragraph1": "Local Lightning fue creado para conectar a aquellos que desean vender o comprar bitcoin localmente.",
+			"paragraph2": "Al utilizar Lightning Network sobre Bitcoin, los usuarios pueden aprovechar el envío y la recepción instantáneos de Bitcoin sin la necesidad de esperar los tiempos de confirmación.",
+			"paragraph3": "A diferencia de sitios web similares, Local Lightning nunca retiene ni administra los fondos de los usuarios.",
+			"thisArticle": "Este artículo."
+		}
+	},
+	"sidebar": {
+		"dashboard": "Tablero",
+		"following": "Siguiendo",
+		"icons": "Iconos",
+		"listings": "Listados",
+		"notifications": "Notificaciones",
+		"rtlSupport": "Soporte RTL",
+		"settings": "Ajustes",
+		"tableList": "Lista de tablas",
+		"userProfile": "Perfil del usuario"
+	}
+}
