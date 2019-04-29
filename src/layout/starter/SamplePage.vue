@@ -5,26 +5,26 @@
         <base-input alternative
                     class="col-4 ml-auto"
                     v-model="citySearch"
-                    placeholder="Search City"
+                    :placeholder="$t('home.search.city')"
                     v-on:keyup.enter="searchLocation">
         </base-input>
         <base-input alternative
                     class="col-4 ml-auto"
                     v-model="stateSearch"
-                    placeholder="Search State"
+                    :placeholder="$t('home.search.state')"
                     v-on:keyup.enter="searchLocation">
         </base-input>
         <base-input alternative
                     class="col-4 ml-auto"
                     v-model="countrySearch"
-                    placeholder="Search Country"
+                    :placeholder="$t('home.search.country')"
                     v-on:keyup.enter="searchLocation">
         </base-input>
       </div>
       <card class="card" :header-classes="{'text-right': isRTL}">
         <h4 slot="header" class="card-title">
           <div class="row app-margin">
-            {{tableMode === 'Selling' ? $t('dashboard.sellingTable') : $t('dashboard.buyingTable')}}
+            {{tableMode === 'Selling' ? $t('home.table.sellingTable') : $t('home.table.buyingTable')}}
 
             <!-- button - add listing -->
             <base-button v-if="signedIn"
@@ -44,26 +44,28 @@
                    data-toggle="buttons">
                 <base-dropdown menu-classes="dropdown-black"
                                title-classes="btn btn-secondary"
-                               :title="tableMode">
-                  <h6 class="dropdown-header">Listing Type</h6>
-                  <a class="dropdown-item" @click="selectSellingTable">Selling</a>
-                  <a class="dropdown-item" @click="selectBuyingTable">Buying</a>
+                               :title="tableModeTitle">
+                  <h6 class="dropdown-header">{{ $t('home.table.listingType') }}</h6>
+                  <a class="dropdown-item" @click="selectSellingTable">{{ $t('general.selling') }}</a>
+                  <a class="dropdown-item" @click="selectBuyingTable">{{ $t('general.buying') }}</a>
                 </base-dropdown>
               </div>
             </div>
             <!-- endof dropdown -->
+
           </div>
         </h4>
+
         <base-table :data="selectedListings"
                     :columns="columns">
           <template slot="columns">
-            <th>Name</th>
-            <th>City</th>
-            <th>State</th>
-            <th>Country</th>
-            <th>Capacity</th>
-            <th>Currency</th>
-            <th class="text-right">Actions</th>
+            <th>{{ $t('general.name') }}</th>
+            <th>{{ $t('general.city') }}</th>
+            <th>{{ $t('general.state') }}</th>
+            <th>{{ $t('general.country') }}</th>
+            <th>{{ $t('general.capacity') }}</th>
+            <th>{{ $t('general.currency') }}</th>
+            <th class="text-right">{{ $t('general.actions') }}</th>
           </template>
           <template slot-scope="{row}">
             <td>{{row.attrs.name}}</td>
@@ -87,6 +89,7 @@
           </template>
         </base-table>
       </card>
+
       <!-- ListingModal -->
       <div>
         <modal :show.sync="activePrompt2"
@@ -101,31 +104,37 @@
                 <base-input alternative
                             class="mb-3"
                             v-model="newListing.city"
-                            placeholder="City">
+                            :placeholder="$t('general.city')">
                 </base-input>
                 <base-input alternative
                             class="mb-3"
                             v-model="newListing.state"
-                            placeholder="State">
+                            :placeholder="$t('general.state')">
                 </base-input>
                 <base-input alternative
                             class="mb-3"
                             v-model="newListing.country"
-                            placeholder="Country">
+                            :placeholder="$t('general.country')">
                 </base-input>
                 <base-input alternative
                             class="mb-3"
                             v-model="newListing.capacity"
-                            placeholder="Capacity">
+                            :placeholder="$t('general.capacity')">
                 </base-input>
                 <base-input v-if="tableMode === 'Buying'"
                             alternative
                             class="mb-3"
                             v-model="newListing.currency"
-                            placeholder="Currency">
+                            :placeholder="$t('general.currency')">
                 </base-input>
                 <div class="text-center">
-                  <base-button type="primary" class="my-4" @click="acceptAlert">Post {{tableMode === 'Selling' ? 'Sell' : 'Buy'}} Listing</base-button>
+                  <base-button
+                    type="primary"
+                    class="my-4"
+                    @click="acceptAlert">
+                    {{tableMode === 'Selling' ?
+                    $t('home.table.postSellListing') : $t('home.table.postBuyListing') }}
+                  </base-button>
                 </div>
               </form>
             </template>
@@ -133,6 +142,7 @@
         </modal>
       </div>
       <!-- endof ListingModal-->
+
       <!-- InvoiceModal -->
       <modal :show.sync="popupActive"
              body-classes="p-0"
@@ -148,16 +158,19 @@
                 height="150px"
                 width="150px"></canvas>
               <hr />
-              Saved to user's storage, pay invoice to post to listing feed:
-              {{invoice.payreq}}
+              {{ $t('home.invoiceModal.savedPayInvoice') }}:
+              {{ invoice.payreq }}
             </div>
             <div class="text-center text-muted mb-4">
-              <a target="_blank" href="https://btcpay.locallightning.net/embed/GUktQV4Mkvth4iU7oy4XGSvcEiRH2uFad7kxJX5LwsK6/BTC/ln">Connect to LocalLightning's Lightning Node</a>
+              <a target="_blank" href="https://btcpay.locallightning.net/embed/GUktQV4Mkvth4iU7oy4XGSvcEiRH2uFad7kxJX5LwsK6/BTC/ln">
+                {{ $t('home.invoiceModal.connectToLightningNode') }}
+              </a>
             </div>
           </template>
         </card>
       </modal>
       <!-- endof InvoiceModal-->
+
       <!-- WelcomeModal -->
       <modal :show.sync="showWelcome"
              body-classes="p-0"
@@ -169,34 +182,41 @@
               class="border-0 mb-0">
           <template>
             <div class="text-center text-white mb-4">
-              <h3>⚡️ Welcome to Local Lightning! ⚡️</h3>
+              <h3>⚡️ {{ $t('home.welcome.header') }} ⚡️</h3>
               <h4>
-                Local Lightning was created to connect those wishing to sell or buy bitcoin locally.
+                {{ $t('home.welcome.paragraph1') }}
               </h4>
               <p class="text-center text-white mb-4">
-                By utilizing the Lightning Network on top of Bitcoin, users may take advantage of instant
-                sending and receiving of Bitcoin without the need to wait for confirmation times.
+                {{ $t('home.welcome.paragraph2') }}
               </p>
               <p class="text-center text-white mb-4">
-                Unlike similar websites, Local Lightning never holds onto or manages user funds.
+                {{ $t('home.welcome.paragraph3') }}
               </p>
               <p class="text-center text-white mb-4">
-                To learning more about the Lightning network, please check out
+                {{ $t('home.welcome.learnMore') }}
                 <a target="_blank" href="https://coincenter.org/entry/what-is-the-lightning-network">
-                  this article.
+                  {{ $t('home.welcome.thisArticle') }}
                 </a>
               </p>
             </div>
             <div class="text-center text-muted mb-4">
-              <a target="_blank" href="https://btcpay.locallightning.net/embed/GUktQV4Mkvth4iU7oy4XGSvcEiRH2uFad7kxJX5LwsK6/BTC/ln">Optionally connect to Local Lightning's Node</a>
+              <a target="_blank" href="https://btcpay.locallightning.net/embed/GUktQV4Mkvth4iU7oy4XGSvcEiRH2uFad7kxJX5LwsK6/BTC/ln">
+                {{ $t('home.welcome.optionallyConnectToNode') }}
+              </a>
             </div>
             <div class="text-center">
-              <base-button type="primary" class="my-4" @click="setViewedWelcome">Get Started</base-button>
+              <base-button
+                type="primary"
+                class="my-4"
+                @click="setViewedWelcome">
+                {{ $t('home.welcome.getStarted') }}
+              </base-button>
             </div>
           </template>
         </card>
       </modal>
       <!-- endof WelcomeModal -->
+
     </div>
   </div>
 </template>
@@ -245,10 +265,12 @@ export default {
       citySearch: '',
       stateSearch: '',
       countrySearch: '',
-      columns: ['name', 'city', 'state', 'country', 'capacity', 'currency'],
+      columns: [
+      ],
       userData: ''
     }),
     mounted () {
+      this.setUpColumns()
       this.checkIfViewedWelcome()
       this.ensurePubKey()
       this.getUser()
@@ -259,6 +281,9 @@ export default {
     computed: {
       signedIn () {
         return this.blockstack.isUserSignedIn()
+      },
+      tableModeTitle () {
+        return this.tableMode === 'Selling' ? this.$t('general.selling') : this.$t('general.buying')
       }
     },
     methods: {
@@ -384,37 +409,18 @@ export default {
 
         listing.save().then((result) => {
           console.log(result)
-          this.notifySuccess('Listing Saved')
+          this.notifySuccess(this.$t('home.notify.listingSaved'))
           // Listing.addInvoiceStreamListener(result.id, this.newLNListener)
           this.listing = listing
           this.invoice = result
           this.saveListingToUser(this.listing)
           this.$vs.loading.close()
-/*          this.popupActive = true
-          var qr = new QRious({
-            element: document.getElementById('qrcode'),
-            value: this.invoice.payreq,
-            background: 'white', // background color
-            foreground: 'black', // foreground color
-            backgroundAlpha: 1,
-            foregroundAlpha: 1,
-            level: 'L', // Error correction level of the QR code (L, M, Q, H)
-            mime: 'image/png', // MIME type used to render the image for the QR code
-            size: 200, // Size of the QR code in pixels.
-            padding: null // padding in pixels
-          })
-          console.log(qr)
-
-          if (this.webln) {
-            this.webln.sendPayment(this.invoice.payreq)
-          } */
-
           this.loadListings()
         })
         .catch((error) => {
           console.log('error saving listing: ' + error)
           this.$vs.loading.close()
-          this.notifyFailure('Did not save Listing', 'Error saving listing to user\'s storage')
+          this.notifyFailure(this.$t('home.notify.error'), this.$t('home.notify.errorSavingUserStorage'))
         })
       },
       acceptAlertInvoice () {
@@ -436,7 +442,7 @@ export default {
 
         listing.saveLN().then((result) => {
           console.log(result)
-          this.notifySuccess('Saved Listing', 'Listing saved to your storage')
+          this.notifySuccess(this.$t('home.notify.listingSaved'), this.$t('home.notify.listingSavedToYourStorage'))
           Listing.addInvoiceStreamListener(result.id, this.newLNListener)
           this.listing = listing
           this.invoice = result
@@ -464,7 +470,7 @@ export default {
           .catch((error) => {
             console.log('error saving listing: ' + error)
             this.$vs.loading.close()
-            this.notifyFailure('Did not save Listing', 'Error saving listing to user\'s storage')
+            this.notifyFailure(this.$t('home.notify.error'), this.$t('home.notify.errorSavingUserStorage'))
           })
       },
       checkIfViewedWelcome () {
@@ -487,7 +493,7 @@ export default {
           this.paid = true
           this.invoice = ''
           this.popupActive = false
-          this.notifySuccess('Invoice Paid', 'Listing posted to the listing feed')
+          this.notifySuccess(this.$t('home.notify.invoicePaid'), this.$t('home.notify.invoicePaidDesc'))
           this.loadListings()
         }
       },
@@ -496,10 +502,7 @@ export default {
         this.loadUser(this.selected.attrs.createdBy)
       },
       close () {
-        this.notifyFailure('Listing Discarded', null)
-      },
-      bigLineChartCategories () {
-        return this.$t('dashboard.chartCategories')
+        this.notifyFailure(this.$t('home.notify.listingDiscarded'))
       },
       canDelete (createdBy) {
         return (
@@ -508,12 +511,12 @@ export default {
       },
       deleteListing (listing) {
         listing.destroy().then(() => {
-          this.notifySuccess('Deleted Listing', null)
+          this.notifySuccess(this.$t('home.notify.deletedListing'))
           this.loadListings()
         })
         .catch((error) => {
           logger.info('failed to delete listing: ' + error)
-          this.notifyFailure('Failed To Delete Listing', null)
+          this.notifyFailure(this.$t('home.notify.deletedListingFailed'))
         })
       },
       selectSellingTable () {
@@ -537,6 +540,16 @@ export default {
           title: title,
           text: text
         })
+      },
+      setUpColumns () {
+        this.columns = [
+          this.$t('general.name'),
+          this.$t('general.city'),
+          this.$t('general.state'),
+          this.$t('general.country'),
+          this.$t('general.capacity'),
+          this.$t('general.currency')
+        ]
       }
     },
     components: {

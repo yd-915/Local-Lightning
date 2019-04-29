@@ -40,7 +40,14 @@
                    id="searchModal"
                    :centered="false"
                    :show-close="true">
-              <input slot="header" v-model="search" type="text" class="form-control" id="inlineFormInputGroup" placeholder="SEARCH" v-on:keyup.enter="searchUser">
+              <input
+                slot="header"
+                v-model="search"
+                type="text"
+                class="form-control"
+                id="inlineFormInputGroup"
+                :placeholder="$t('general.search')"
+                v-on:keyup.enter="searchUser">
             </modal>
 
             <!-- settings dropdown -->
@@ -55,21 +62,18 @@
                   <img src="avatar-placeholder.png">
                 </div>
                 <b class="caret d-none d-lg-block d-xl-block"></b>
-                <p class="d-lg-none">
-                  Log out
-                </p>
               </a>
               <li class="nav-link">
-                <a @click="goToProfile" href="#" class="nav-item dropdown-item">Profile</a>
+                <a @click="goToProfile" href="#" class="nav-item dropdown-item">{{ $t('general.profile') }}</a>
               </li>
               <li class="nav-link">
                 <router-link :to="{name: 'Settings'}">
-                  <a href="#" class="nav-item dropdown-item">Settings</a>
+                  <a href="#" class="nav-item dropdown-item">{{ $t('general.settings') }}</a>
                 </router-link>
               </li>
               <div class="dropdown-divider"></div>
               <li class="nav-link">
-                <a @click="signOut" href="#" class="nav-item dropdown-item">Log out</a>
+                <a @click="signOut" href="#" class="nav-item dropdown-item">{{ $t('general.logOut') }}</a>
               </li>
             </base-dropdown>
           </ul>
@@ -77,7 +81,20 @@
       </collapse-transition>
 
       <!-- sign in button -->
-      <button v-if="!signedIn" class="btn btn-default" @click.prevent="radiksSignIn">Sign In</button>
+      <button v-if="!signedIn" class="btn btn-default" @click.prevent="radiksSignIn">{{ $t('general.signIn') }}</button>
+
+      <!-- locale changer -->
+      <div class="locale-changer">
+        <vs-select
+          v-model="locale"
+          width="55px"
+        >
+          <vs-select-item :key="`Lang${i}`"
+                          :value="lang"
+                          :text="lang"
+                          v-for="(lang, i) in langs" />
+        </vs-select>
+      </div>
     </div>
   </nav>
 </template>
@@ -113,9 +130,19 @@ export default {
       userSearch: '',
       activeItem: 5,
       search: '',
-      userSession: null
+      userSession: null,
+      langs: ['en', 'es'],
+      locale: 'en'
     }),
+    watch: {
+      locale: function (newLang, oldLang) {
+        console.log('language changed from ' + oldLang)
+        this.$i18n.locale = newLang
+        localStorage.setItem('locale', newLang)
+      }
+    },
     mounted () {
+      this.loadLocale()
     },
     methods: {
       loadUserData () {
@@ -162,6 +189,14 @@ export default {
         this.$router.push('/home?signedOut=True')
         // this.user = null
         // this.radiksUser = null
+      },
+      loadLocale () {
+        const loadedLocale = localStorage.getItem('locale')
+        if (loadedLocale !== null) {
+          console.log('loading with locale: ' + loadedLocale)
+          this.$i18n.locale = loadedLocale
+          this.locale = loadedLocale
+        }
       }
     }
   }

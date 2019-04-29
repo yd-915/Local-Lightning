@@ -48,16 +48,6 @@ let router = new Router({
       path: '/profile/:id',
       name: 'Profile',
       component: Profile
-    },
-    {
-      path: '/following',
-      name: 'Following',
-      component: require('@/views/FollowingView')
-    },
-    {
-      path: '/settings',
-      name: 'Settings',
-      component: require('@/views/SettingsView')
     } /* ,
     {
       path: '/profile/:id/item/:itemId',
