@@ -17,18 +17,18 @@
         <card class="card" :header-classes="{'text-right': isRTL}">
           <h4 slot="header" class="card-title">
             <div class="row app-margin">
-              Listings
+              {{ $t('sidebar.listings') }}
             </div>
           </h4>
           <base-table :data="userListings"
                       :columns="columns">
             <template slot="columns">
-              <th>Name</th>
-              <th>City</th>
-              <th>State</th>
-              <th>Country</th>
-              <th>Capacity</th>
-              <th>Currency</th>
+              <th>{{ $t('general.name') }}</th>
+              <th>{{ $t('general.city') }}</th>
+              <th>{{ $t('general.state') }}</th>
+              <th>{{ $t('general.country') }}</th>
+              <th>{{ $t('general.capacity') }}</th>
+              <th>{{ $t('general.currency') }}</th>
             </template>
             <template slot-scope="{row}">
               <td>{{row.attrs.name}}</td>
@@ -122,7 +122,7 @@
           })
           .catch((error) => {
             logger.error('could not resolve profile: ' + error)
-            this.notifyFailure('User Not Found')
+            this.notifyFailure(this.$t('profile.alerts.userNotFound'))
             this.$vs.loading.close()
           })
 
@@ -169,7 +169,7 @@
       deleteListing (listing) {
         const listingToDelete = listing
         const index = this.userListings.indexOf(listingToDelete)
-        confirm('Are you sure you want to delete this listing?') &&
+        confirm(this.$t('profile.deleteListing')) &&
         this.userListings.splice(index, 1) &&
         this.updateListings()
 
@@ -182,16 +182,16 @@
           })
           .catch((error) => {
             logger.info('failed to delete listing from server: ' + error)
-            this.notifyFailure('Failed To Delete Listing from server', null)
+            this.notifyFailure(this.$t('profile.failureDeleteListing'), null)
           })
       },
       updateListings () {
         this.blockstack.putFile(LISTING_FILE, JSON.stringify(this.userListings), {encrypt: false})
           .then(() => {
-            this.notifySuccess('Removed', 'Removed listing')
+            this.notifySuccess(this.$t('general.removed'), this.$t('profile.alerts.removedListing'))
           })
           .catch((error) => {
-            this.notifyFailure('Failure To Delete Listing from your storage', error)
+            this.notifyFailure(this.$t('profile.alerts.failureDeleteListingUser'), error)
           })
       },
       getUser () {

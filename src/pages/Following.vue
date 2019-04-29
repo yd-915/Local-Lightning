@@ -1,13 +1,13 @@
 <template>
   <div>
     <card class="card" :header-classes="{'text-right': isRTL}">
-      <h4 slot="header" class="card-title">{{$t('dashboard.followingList')}}</h4>
+      <h4 slot="header" class="card-title">{{ $t('followingList.followingList') }}</h4>
       <base-table :data="followingList"
                   :columns="columns">
         <template slot="columns">
-          <th>Name</th>
-          <th>Username</th>
-          <th class="text-right">Actions</th>
+          <th>{{ $t('general.name') }}</th>
+          <th>{{ $t('general.username') }}</th>
+          <th class="text-right">{{ $t('general.actions') }}</th>
         </template>
         <template slot-scope="{row}">
           <td>{{row.name}}</td>
@@ -74,17 +74,17 @@
       deleteUser (user) {
         const index = this.followingList.indexOf(user)
 
-        confirm('Are you sure you want to stop following this user?') &&
+        confirm(this.$t('followingList.unfollowUser')) &&
         this.followingList.splice(index, 1) &&
         this.updateFollowingList()
       },
       updateFollowingList () {
         this.blockstack.putFile(PRIVATE_FRIENDS_LIST, JSON.stringify(this.followingList), {encrypt: true})
           .then(() => {
-            this.notifySuccess('Removed', 'Removed user from following list')
+            this.notifySuccess(this.$t('followingList.alerts.removed'), this.$t('followingList.alerts.removedUser'))
           })
           .catch((error) => {
-            this.notifyFailure('Failure To Remove', error)
+            this.notifyFailure(this.$t('followingList.alerts.failureToRemove'), error)
           })
       },
       notifySuccess (title, text) {

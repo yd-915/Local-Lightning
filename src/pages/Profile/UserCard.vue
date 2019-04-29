@@ -10,7 +10,7 @@
 
       <img class="avatar" src="avatar-placeholder.png" alt="...">
       <h5 class="title">
-        {{ user.person ? user.person.name() ? user.person.name() : user.username : "Nameless Person" }}'s Profile
+        {{ user.person ? user.person.name() ? user.person.name() : user.username : "Nameless Person" }}'s {{ $t('general.profile') }}
       </h5>
       <p class="description">
         {{userEmail}}
@@ -30,10 +30,10 @@
     </div>
     <div slot="footer" class="button-container">
       <base-button v-if="signedIn" round @click="addFollow">
-        Follow
+        {{ $t('general.follow') }}
       </base-button>
       <base-button round @click="emailUser">
-        Email
+        {{ $t('general.email') }}
       </base-button>
     </div>
   </card>
@@ -105,18 +105,18 @@
               logger.info('Saving private file', {file: PRIVATE_FOLLOW_LIST})
               blockstack.putFile(PRIVATE_FOLLOW_LIST, JSON.stringify(followList), {encrypt: true})
                 .then(() => {
-                  this.notifySuccess('Following User', null)
+                  this.notifySuccess(this.$t('profile.alerts.followingUser'), null)
                 })
                 .catch((error) => {
-                  this.notifyFailure('Failure Following User', error)
+                  this.notifyFailure(this.$t('profile.alerts.failureFollowingUser'), error)
                 })
             } else {
-              this.notifyWarning('Already Following User')
+              this.notifyWarning(this.$t('profile.alerts.alreadyFollowingUser'))
             }
           })
           .catch((error) => {
             logger.error('could not get/save followingList list: ' + error)
-            this.notifyFailure('Failure Following User', error)
+            this.notifyFailure(this.$t('profile.alerts.failureFollowingUser'), error)
           })
       },
       emailUser () {

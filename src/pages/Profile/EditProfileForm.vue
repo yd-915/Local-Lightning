@@ -1,67 +1,50 @@
 <template>
   <card>
-    <h5 slot="header" class="title">Edit Profile</h5>
+    <h5 slot="header" class="title">{{ $t('editProfile.editProfile') }}</h5>
     <div class="row">
       <div class="col-md-3 px-md-1">
-        <base-input label="Name"
-                  placeholder="Name"
-                  v-model="publicInformation.name">
+        <base-input :label="$t('general.name')"
+                    :placeholder="$t('general.name')"
+                    v-model="publicInformation.name">
         </base-input>
       </div>
       <div class="col-md-4 pl-md-1">
-        <base-input label="Email address"
-                  type="email"
-                  placeholder="Email"
-                  v-model="publicInformation.email">
+        <base-input :label="$t('general.email')"
+                    type="email"
+                    :placeholder="$t('general.email')"
+                    v-model="publicInformation.email">
         </base-input>
       </div>
       <div class="col-md-6 pr-md-1">
-        <base-input label="Location"
+        <base-input :label="$t('general.location')"
                     v-model="publicInformation.location"
-                    placeholder="Location">
+                    :placeholder="$t('general.location')" >
         </base-input>
       </div>
     </div>
     <div class="row">
       <div class="col-md-12">
-        <base-input label="Node Information"
+        <base-input :label="$t('general.nodeInformation')"
                   v-model="publicInformation.nodeInformation"
-                  placeholder="Node Information">
+                  :placeholder="$t('general.nodeInformation')">
         </base-input>
       </div>
     </div>
-<!--    <div class="row">
-      <div class="col-md-4 pr-md-1">
-        <base-input label="City"
-                  v-model="model.city"
-                  placeholder="City">
-        </base-input>
-      </div>
-      <div class="col-md-4 px-md-1">
-        <base-input label="Country"
-                  v-model="model.country"
-                  placeholder="Country">
-        </base-input>
-      </div>
-      <div class="col-md-4 pl-md-1">
-        <base-input label="Postal Code"
-                  placeholder="ZIP Code">
-        </base-input>
-      </div>
-    </div>-->
     <div class="row">
       <div class="col-md-8">
         <base-input>
-          <label>About Me</label>
+          <label>{{ $t('general.aboutMe') }}</label>
           <textarea rows="4" cols="80"
                     class="form-control"
-                    placeholder="Here can be your description"
-                    v-model="publicInformation.description">
+                    v-model="publicInformation.description"
+                    :placeholder="$t('general.description')">
               </textarea>
         </base-input>
       </div>
     </div>
-    <base-button slot="footer" type="primary" fill @click="submitPublic">Save</base-button>
+    <base-button slot="footer" type="primary" fill @click="submitPublic">
+      {{ $t('general.save') }}
+    </base-button>
   </card>
 </template>
 <script>
@@ -95,10 +78,10 @@
         logger.info('Saving public file', { file: PUBLIC_STORAGE_FILE })
         return blockstack.putFile(PUBLIC_STORAGE_FILE, JSON.stringify(this.publicInformation), { encrypt: false })
           .then(() => {
-            this.notifySuccess('Saved Profile', null)
+            this.notifySuccess(this.$t('editProfile.alerts.savedProfile'), null)
           })
           .catch((error) => {
-            this.notifyFailure('Failed To Save Profile', error.message)
+            this.notifyFailure(this.$t('editProfile.alerts.failedSavedProfile'), error.message)
           })
       },
       clearPublic () {
